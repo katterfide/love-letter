@@ -7,6 +7,8 @@ public class Main {
     {
         Scanner sc = new Scanner(System.in);
         String choice;
+        int playerCount;
+
 
             System.out.println("Welcome to Love Letter!");
             System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
@@ -27,7 +29,7 @@ public class Main {
 
                 while(true) {
                     System.out.println("How many players are there? (2-4)");
-                    int playerCount = sc.nextInt();
+                    playerCount = sc.nextInt();
 
                     if (playerCount > 4) {
                         System.out.println("That is too many players. Please limit yourself to playing with 2-4 players.");
@@ -41,6 +43,17 @@ public class Main {
                 }
 
 
+                String[] playerNames = new String[playerCount + 1];
+                for (int i = 1; i <= playerCount; i++) {
+                    System.out.print("Enter player name #" + i + ": ");
+                    playerNames[i] = sc.next();
+                }
+
+
+    }
+
+
+
 
         //scan name
         //how many players
@@ -49,7 +62,7 @@ public class Main {
         //go!
         }
 
-}
+
 
 
 
