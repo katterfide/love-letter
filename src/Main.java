@@ -8,26 +8,47 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String choice;
 
+            System.out.println("Welcome to Love Letter!");
             System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
 
-                choice = sc.nextLine();
-                if (choice.equals("\\" + "start")) {
-                    System.out.println("How many players are there?");
-                    //scan name
-                    //how many players
-                    //playernames
-                    //ready?
-                    //go!
+                while(true) {
+                    choice = sc.nextLine();
+
+
+                    if (choice.equals("\\" + "start")) {
+                        break;
+                    } else if (choice.equals("\\" + "help")) {
+                        System.out.println("Your only available commands right now are " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands.");
+                    } else {
+                        System.out.println("Command not recognized.");
+                        System.out.println("For a list of available commands type: " +"\"" + "\\" + "help" + "\"");
+                    }
                 }
 
-                else if (choice.equals("\\" + "help")) {
-                    System.out.println("Your only available commands right now are " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands.");
+                while(true) {
+                    System.out.println("How many players are there? (2-4)");
+                    int playerCount = sc.nextInt();
+
+
+                    if (playerCount > 4) {
+                        System.out.println("That is too many players. Please limit yourself to playing with 2-4 players.");
+                    }
+                    else if (playerCount < 2) {
+                        System.out.println("That is too little players. Please limit yourself to playing with 2-4 players.");
+                    }
+                    else {
+                        break;
+                    }
                 }
 
-                else {
-                    System.out.println("Command not recognized.");
-                }
-    }
+
+
+        //scan name
+        //how many players
+        //playernames
+        //ready?
+        //go!
+        }
 
 }
 
