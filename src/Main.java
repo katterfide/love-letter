@@ -93,7 +93,7 @@ public class Main {
                     System.out.println("For a list of available commands type: " + "\"" + "\\" + "help" + "\"");
                     break;
             }
-        }
+        }                                               //gamemoves "Grundgerüst"
 
 
     }
