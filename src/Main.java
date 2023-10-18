@@ -29,7 +29,6 @@ public class Main {
                     System.out.println("How many players are there? (2-4)");
                     int playerCount = sc.nextInt();
 
-
                     if (playerCount > 4) {
                         System.out.println("That is too many players. Please limit yourself to playing with 2-4 players.");
                     }
