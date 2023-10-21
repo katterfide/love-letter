@@ -10,21 +10,6 @@ public class Main {
 
 
             System.out.println("Welcome to Love Letter!");
-            System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
-
-                while(true) {
-                    choice = sc.nextLine();
-
-
-                    if (choice.equals("\\" + "start")) {
-                        break;
-                    } else if (choice.equals("\\" + "help")) {
-                        System.out.println("Your only available commands right now are " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands.");
-                    } else {
-                        System.out.println("Command not recognized.");
-                        System.out.println("For a list of available commands type: " +"\"" + "\\" + "help" + "\"");
-                    }
-                }
 
                 while(true) {
                     System.out.println("How many players are there? (2-4)");
@@ -47,6 +32,25 @@ public class Main {
                     System.out.print("Enter player name #" + i + ": ");
                     playerNames[i] = sc.next();
                 }
+
+
+        System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
+
+
+        while(true) {
+            choice = sc.next();
+
+            if (choice.equals("\\" + "start")) {
+                break;
+            } else if (choice.equals("\\" + "help")) {
+                System.out.println("Your only available commands right now are " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands.");
+            } else {
+                System.out.println("Command not recognized.");
+                System.out.println("For a list of available commands type: " +"\"" + "\\" + "help" + "\"");
+            }
+        }
+
+
 
                 System.out.println("We're all set!");
                 Thread.sleep(1000);
