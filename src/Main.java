@@ -12,7 +12,20 @@ public class Main {
 
         System.out.println("Welcome to Love Letter!");
 
-        Player.inputPlayerCount(sc);
+        Deck deck = new Deck();
+
+        // Show the initial state of the deck
+        System.out.println("Initial state of the deck:");
+        deck.showDeck();
+
+        // Shuffle the deck
+        Deck.shuffleDeck();
+
+        // Show the shuffled deck
+        System.out.println("\nShuffled deck:");
+        deck.showDeck();
+
+        Player.inputPlayerCount();
         Player.inputPlayerNames();
 
 

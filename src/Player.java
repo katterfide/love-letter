@@ -7,7 +7,8 @@ public class Player {
     public static int playerCount = 0;
     public static String[] playerNames;
 
-    public static int inputPlayerCount(Scanner sc) {
+    public static int inputPlayerCount() {
+        Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("How many players are there? (2-4)");
             playerCount = sc.nextInt();
@@ -33,18 +34,21 @@ public class Player {
     }
 
 
-    //static int currentPlayerIndex = playerCount; // Define the index of the current player
-    //static String currentPlayer = playerNames[currentPlayerIndex];
-
-
 
     public void playerHands(){
         Map<String, ArrayList<String>> playerHands = new HashMap<>();
         for (int i = 0; i < playerCount; i++){
             String playerName = playerNames[i];
         }
+        //for saving cards
     }
 
+    //
+    //
+    //currentplayer switch
+    //drawcards if under 2 until 2
+    //
+    // d
 
     /*
     public String getPlayerName(){
