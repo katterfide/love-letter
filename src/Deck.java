@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,10 +8,10 @@ public class Deck {
 
     public Deck(){
         cards = new Card[16];
-        reset();
+        fillDeck();
     }
 
-    public void reset(){
+    public void fillDeck(){
         cardsInDeck = 0;
 
         Card.CardType[] types = new Card.CardType[] {Card.CardType.GUARD};
@@ -37,6 +38,18 @@ public class Deck {
 
     private void shuffleDeck() {
         Collections.shuffle(List.of(cards));
+    }
+
+    public static void drawCards(ArrayList<String> deck, int numberOfCardsToDraw) {
+        if (deck.size() >= numberOfCardsToDraw) {
+            System.out.println("Drawing " + numberOfCardsToDraw + " card(s):");
+            for (int i = 0; i < numberOfCardsToDraw; i++) {
+                String drawnCard = deck.remove(0); // Remove the top card from the deck
+                System.out.println("Drawn card: " + drawnCard);
+            }
+        } else {
+            System.out.println("Deck is empty.");
+        }
     }
 
 //drawcards?
