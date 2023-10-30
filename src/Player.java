@@ -20,9 +20,6 @@ public class Player {
         }
     }
 
-    public static void addPlayer(Map<String, ArrayList<String>> playerHands, String playerName) {
-        playerHands.put(playerName, new ArrayList<>());
-    }
 
 
     /*
