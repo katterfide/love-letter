@@ -62,7 +62,4 @@ public class Deck {
             }
         }
     }
-    public void show3card() {
-                System.out.println(cards[3].getType());
-    }
 }
