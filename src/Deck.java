@@ -33,7 +33,6 @@ public class Deck {
                 cards[cardsInDeck++] = new Card(type);
             }
         }
-        Collections.shuffle(List.of(cards));
     }
 
     private void shuffleDeck() {

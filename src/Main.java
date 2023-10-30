@@ -41,6 +41,7 @@ public class Main {
         System.out.println(Arrays.toString(playerNames));
         System.out.println(Player.currentPlayer);
 
+
     }
 
 }
