@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -13,6 +15,7 @@ public class Main {
         System.out.println("Welcome to Love Letter!");
 
         Deck deck = new Deck();
+        deck.fillDeck();
 
         // Shuffle the deck
         Deck.shuffleDeck();
@@ -28,7 +31,7 @@ public class Main {
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
 
 
-        while(true) {
+        while (true) {
             choice = sc.next();
 
             if (choice.equals("\\" + "start")) {
@@ -37,10 +40,9 @@ public class Main {
                 System.out.println("Your only available commands right now are " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands.");
             } else {
                 System.out.println("Command not recognized.");
-                System.out.println("For a list of available commands type: " +"\"" + "\\" + "help" + "\"");
+                System.out.println("For a list of available commands type: " + "\"" + "\\" + "help" + "\"");
             }
         }
-
 
 
         System.out.println("We're all set!");
@@ -56,7 +58,7 @@ public class Main {
         System.out.println("For a list of available commands type: " + "\\" + "help");
 
         label:
-        while(true) {
+        while (true) {
             choice = sc.next();
 
             switch (choice) {
@@ -88,7 +90,25 @@ public class Main {
                     System.out.println("For a list of available commands type: " + "\"" + "\\" + "help" + "\"");
                     break;
             }
-        }                                               //gamemoves "Grundgerüst"
-    }
 
+
+        }
+        Player.generatePlayerHands(deck);
+        Map<String, ArrayList<String>> playerHands = Player.getPlayerHands();
+
+        if (playerHands != null) {
+            for (Map.Entry<String, ArrayList<String>> entry : playerHands.entrySet()) {
+                String playerName = entry.getKey();
+                ArrayList<String> hand = entry.getValue();
+
+                System.out.println(playerName + "'s hand:");
+                for (String card : hand) {
+                    System.out.println(card);
+                }
+                System.out.println(); // Separate each player's hand
+            }
+        } else {
+            System.out.println("Player hands not generated yet.");
+        }
+    }
 }

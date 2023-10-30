@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,15 +42,13 @@ public class Deck {
         cardList.toArray(cards);
     }
 
-    public static void drawCards(ArrayList<String> deck, int numberOfCardsToDraw) {
-        if (deck.size() >= numberOfCardsToDraw) {
-            System.out.println("Drawing " + numberOfCardsToDraw + " card(s):");
-            for (int i = 0; i < numberOfCardsToDraw; i++) {
-                String drawnCard = deck.remove(0); // Remove the top card from the deck
-                System.out.println("Drawn card: " + drawnCard);
-            }
+    public static Card drawCard(int index) {
+        if (index >= 0 && index < cards.length && cards[index] != null) {
+            Card drawnCard = cards[index];
+            cards[index] = null; // Remove the card from the deck
+            return drawnCard;
         } else {
-            System.out.println("Deck is empty.");
+            return null; // Invalid index or no cards left in the deck
         }
     }
 
