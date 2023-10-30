@@ -15,24 +15,25 @@ public class Deck {
     public void fillDeck() {
         cardsInDeck = 0;
 
-        Card.CardType[] types = new Card.CardType[]{Card.CardType.GUARD};
-        for (Card.CardType type : types) {
-            for (int i = 0; i < 5; i++) {
+        // Create a separate loop for each card type
+        addCards(Card.CardType.GUARD, 5);
+        addCards(Card.CardType.PRIEST, 2);
+        addCards(Card.CardType.BARON, 2);
+        addCards(Card.CardType.HANDMAID, 2);
+        addCards(Card.CardType.PRINCE, 2);
+        addCards(Card.CardType.KING, 1);
+        addCards(Card.CardType.COUNTESS, 1);
+        addCards(Card.CardType.PRINCESS, 1);
+    }
+
+    // Helper method to add cards of a specific type to the deck
+    private void addCards(Card.CardType type, int count) {
+        for (int i = 0; i < count; i++) {
+            if (cardsInDeck < cards.length) {
                 cards[cardsInDeck++] = new Card(type);
+            } else {
+                break; // Avoid adding cards beyond the deck size
             }
-        }
-
-        types = new Card.CardType[]{Card.CardType.BARON, Card.CardType.PRIEST, Card.CardType.HANDMAID, Card.CardType.PRINCE};
-        for (Card.CardType type : types) {
-            for (int i = 0; i < 2; i++) {
-                cards[cardsInDeck++] = new Card(type);
-            }
-        }
-
-
-        types = new Card.CardType[]{Card.CardType.KING, Card.CardType.COUNTESS, Card.CardType.PRINCESS};
-        for (Card.CardType type : types) {
-            cards[cardsInDeck++] = new Card(type);
         }
     }
 
@@ -55,10 +56,13 @@ public class Deck {
     }
 
     public void showDeck() {
-        for (Card card : cards) {
-            System.out.println(Card.getCardType());
+        for (int i = 0; i < cards.length; i++) {
+            if (cards[i] != null) {
+                System.out.println(cards[i].getType());
+            }
         }
-
-//drawcards?
+    }
+    public void show3card() {
+                System.out.println(cards[3].getType());
     }
 }

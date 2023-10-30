@@ -25,6 +25,9 @@ public class Main {
         System.out.println("\nShuffled deck:");
         deck.showDeck();
 
+        System.out.println("\nshow3card:");
+        deck.show3card();
+
         Player.inputPlayerCount();
         Player.inputPlayerNames();
 

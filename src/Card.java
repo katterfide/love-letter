@@ -1,5 +1,5 @@
 public class Card {
-    private static CardType type;
+    private CardType type;
 
     enum CardType {
         GUARD, PRIEST, BARON, HANDMAID, PRINCE, KING, COUNTESS, PRINCESS
@@ -12,11 +12,6 @@ public class Card {
     public CardType getType() {
         return type;
     }
-
-    public static String getCardType() {
-        return type.toString();
-    }
-
 
 /*
     public void playCard(Player currentPlayer, Player targetPlayer) {
