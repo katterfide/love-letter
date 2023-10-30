@@ -1,9 +1,55 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    public static void main(String[] args) throws InterruptedException {        //brauche throws interrupted Exception weil sonst sleep nicht akzeptiert wird
+    public static int playerCount = 0;
+    public static String[] playerNames = null;
+
+    public static void main(String[] args){
+
+        Scanner sc = new Scanner(System.in);
+        String choice;
+
+        Player[] players = new Player[playerCount];
+
+
+        System.out.println("Welcome to Love Letter!");
+
+        while(true) {
+            System.out.println("How many players are there? (2-4)");
+            playerCount = sc.nextInt();
+
+            if (playerCount > 4) {
+                System.out.println("That is too many players. Please limit yourself to playing with 2-4 players.");
+            }
+            else if (playerCount < 2) {
+                System.out.println("That is too little players. Please limit yourself to playing with 2-4 players.");
+            }
+            else {
+                break;
+            }
+        }
+
+        playerNames = new String[playerCount];
+        for (int i = 0; i < playerCount; i++) {
+            System.out.print("Enter player name #" + (i + 1) + ": ");
+            playerNames[i] = sc.next();
+        }
+
+        System.out.println(Arrays.toString(playerNames));
+        System.out.println(Player.currentPlayer);
+
+    }
+
+}
+
+
+
+
+
+    /*public static void main(String[] args) throws InterruptedException {        //brauche throws interrupted Exception weil sonst sleep nicht akzeptiert wird
         Scanner sc = new Scanner(System.in);
         String choice;
         int playerCount;
@@ -101,32 +147,7 @@ public class Main {
 
 
     }
+*/
 
 
-
-
-        //scan name
-        //how many players
-        //playernames
-        //ready?
-        //go!
-        }
-
-
-
-
-
-        /*
-        scan for start
-        playerCount?
-        playerNames?
-        (ready?)
-        start of game confirmation
-            help always available from here
-        gamemoves
-            playCard
-            showHand
-            showScore
-         */
-
-
+}
