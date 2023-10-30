@@ -4,8 +4,6 @@ import java.util.Scanner;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    public static int playerCount = 0;
-    public static String[] playerNames = null;
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -14,26 +12,10 @@ public class Main {
 
         System.out.println("Welcome to Love Letter!");
 
-        while(true) {
-            System.out.println("How many players are there? (2-4)");
-            playerCount = sc.nextInt();
+        Player.inputPlayerCount(sc);
+        Player.inputPlayerNames();
 
-            if (playerCount > 4) {
-                System.out.println("That is too many players. Please limit yourself to playing with 2-4 players.");
-            }
-            else if (playerCount < 2) {
-                System.out.println("That is too little players. Please limit yourself to playing with 2-4 players.");
-            }
-            else {
-                break;
-            }
-        }
 
-        playerNames = new String[playerCount];
-        for (int i = 0; i < playerCount; i++) {
-            System.out.print("Enter player name #" + (i + 1) + ": ");
-            playerNames[i] = sc.next();
-        }
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
 
 
