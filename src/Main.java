@@ -27,6 +27,26 @@ public class Main {
         Player.inputPlayerCount();
         Player.inputPlayerNames();
 
+        Player.generatePlayerHands(deck);
+        Map<String, ArrayList<String>> playerHands = Player.getPlayerHands();
+
+        if (playerHands != null) {
+            for (Map.Entry<String, ArrayList<String>> entry : playerHands.entrySet()) {
+                String playerName = entry.getKey();
+                ArrayList<String> hand = entry.getValue();
+
+                System.out.println(playerName + "'s hand:");
+                for (String card : hand) {
+                    System.out.println(card);
+                }
+                System.out.println(); // Separate each player's hand
+            }
+        } else {
+
+            System.out.println("Player hands not generated yet.");
+        }
+        deck.showDeck();
+
 
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
 
@@ -48,11 +68,8 @@ public class Main {
         System.out.println("We're all set!");
         Thread.sleep(1000);
         System.out.println("Get ready to start playing in 3...");
-        Thread.sleep(1000);
         System.out.println("Get ready to start playing in 2...");
-        Thread.sleep(1000);
         System.out.println("Get ready to start playing in 1...");
-        Thread.sleep(1000);
         System.out.println("Let's go!");
 
         System.out.println("For a list of available commands type: " + "\\" + "help");
@@ -93,22 +110,6 @@ public class Main {
 
 
         }
-        Player.generatePlayerHands(deck);
-        Map<String, ArrayList<String>> playerHands = Player.getPlayerHands();
 
-        if (playerHands != null) {
-            for (Map.Entry<String, ArrayList<String>> entry : playerHands.entrySet()) {
-                String playerName = entry.getKey();
-                ArrayList<String> hand = entry.getValue();
-
-                System.out.println(playerName + "'s hand:");
-                for (String card : hand) {
-                    System.out.println(card);
-                }
-                System.out.println(); // Separate each player's hand
-            }
-        } else {
-            System.out.println("Player hands not generated yet.");
         }
     }
-}

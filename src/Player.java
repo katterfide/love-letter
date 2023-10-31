@@ -39,11 +39,13 @@ public class Player {
 
     public static void generatePlayerHands(Deck deck) {
         playerHands = new HashMap<>();
+        int totalCards = playerCount * 2; // Total cards required for all players
+
         for (int i = 0; i < playerCount; i++) {
             String playerName = playerNames[i];
-
             ArrayList<String> hand = new ArrayList<>();
-            for (int j = 0; j < 2; j++) {
+
+            for (int j = i * 2; j < i * 2 + 2; j++) {
                 Card card = deck.drawCard(j);
                 if (card != null) {
                     hand.add(card.getType().toString());
