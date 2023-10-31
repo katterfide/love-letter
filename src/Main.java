@@ -32,7 +32,6 @@ public class Main {
 
         deck.showDeck();
 
-
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
 
 
