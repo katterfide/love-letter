@@ -28,23 +28,8 @@ public class Main {
         Player.inputPlayerNames();
 
         Player.generatePlayerHands(deck);
-        Map<String, ArrayList<String>> playerHands = Player.getPlayerHands();
+        Player.getPlayerHands();
 
-        if (playerHands != null) {
-            for (Map.Entry<String, ArrayList<String>> entry : playerHands.entrySet()) {
-                String playerName = entry.getKey();
-                ArrayList<String> hand = entry.getValue();
-
-                System.out.println(playerName + "'s hand:");
-                for (String card : hand) {
-                    System.out.println(card);
-                }
-                System.out.println(); // Separate each player's hand
-            }
-        } else {
-
-            System.out.println("Player hands not generated yet.");
-        }
         deck.showDeck();
 
 

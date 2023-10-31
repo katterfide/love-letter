@@ -56,8 +56,8 @@ public class Player {
         }
     }
 
-    public static Map<String, ArrayList<String>> getPlayerHands() {
-        return playerHands;
+    public static void getPlayerHands() {
+        System.out.println(playerHands);
 
         // Method to retrieve a player's hand by name
     }
