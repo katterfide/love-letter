@@ -9,6 +9,7 @@ public class Player {
 
     private static Map<String, ArrayList<String>> playerHands;
 
+    private String name;
 
     public static int inputPlayerCount() {
         Scanner sc = new Scanner(System.in);
@@ -59,7 +60,17 @@ public class Player {
 
     public static void getPlayerHands() {
         System.out.println(playerHands);
-
-        // Method to retrieve a player's hand by name
     }
+
+
+
+    public Player(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
 }
