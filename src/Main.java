@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
+import java.security.Guard;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -16,21 +14,24 @@ public class Main {
 
         Deck deck = new Deck();
         deck.fillDeck();
-
-        // Shuffle the deck
         Deck.shuffleDeck();
 
-        // Show the shuffled deck
         System.out.println("\nShuffled deck:");
         deck.showDeck();
+
 
         Player.inputPlayerCount();
         Player.inputPlayerNames();
 
         Player.generatePlayerHands(deck);
-        Player.getPlayerHands();
+        Player.printALLPlayerHands();
 
         deck.showDeck();
+
+        Card.CardType playerSelectedCard = Player.selectedCard();
+
+        Card.playCard(playerSelectedCard);
+
 
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
 

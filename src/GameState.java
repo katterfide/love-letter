@@ -11,9 +11,10 @@ public class GameState {
 
     static int currentPlayerIndex = 0; // Define the index of the current player
 
-    String currentPlayer = Player.playerNames[currentPlayerIndex];
+    static String currentPlayer = Player.playerNames[currentPlayerIndex];
 
     private void getCurrentPlayerIndex() {
+
         System.out.println(currentPlayerIndex);
     }
 

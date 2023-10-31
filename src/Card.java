@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Card {
@@ -8,19 +9,21 @@ public class Card {
     }
 
     public Card(CardType type) {
+
         this.type = type;
     }
 
     public CardType getType() {
+
         return type;
     }
 
 
-    public void playCard(Player currentPlayer, Player targetPlayer) {
-        // Implement specific card logic here
-        switch (type) {
+    public static void playCard(CardType playerSelectedCard) {
+        Player.selectedCard();
+        switch (Player.selectedCard()) {
             case GUARD:
-                guardAction(GameState.currentPlayerIndex);
+                guardAction(Player.chooseTargetPlayer());
                 break;
                 /*
             case PRIEST:
@@ -41,8 +44,8 @@ public class Card {
             case COUNTESS:
                 countessAction(currentPlayer, targetPlayer);
                 break;
+            */
 
-                */
             default:
                 System.out.println("No specific action for this card.");
                 break;
@@ -50,25 +53,32 @@ public class Card {
     }
 
 
-    private void guardAction(int currentPlayer) {
-            // Implement logic for the Guard card
-            Card.CardType guess = makeGuess();
-            int targetPlayer = chooseTargetPlayer();
-            Card.CardType targetCard = targetPlayer.getHandCard().getType(); // Assuming getHandCard() gets the current card in player's hand
 
-            System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card as " + guess + ".");
+    private static void guardAction(int i) {
+        CardType guess = makeGuess();
+        i = Player.targetPlayer;
+        ArrayList<String> targetCards = Player.getPlayerHand(Player.targetPlayer);
+        //do i have those cards
+        //currentplayerindex
 
-            if (targetCard == guess) {
-                System.out.println("Correct guess! " + targetPlayer.getName() + " is eliminated.");
+        System.out.println(GameState.currentPlayer + " plays Guard and guesses Player " + Player.targetPlayer + "'s hand card as " + guess + ".");
+
+        if (targetCards != null) {
+            // Here, targetCards holds the cards of the targetPlayer
+            // Perform the comparison or other actions as required
+            if (targetCards.contains(guess.toString())) {
+                System.out.println("Correct guess! Player " + Player.targetPlayer + " is eliminated.");
                 // Implement logic to eliminate the targetPlayer
                 // For example: targetPlayer.eliminate();
             } else {
                 System.out.println("Incorrect guess. Nothing happens.");
             }
-            // int i = GameState.currentPlayerIndex + 1;
+        } else {
+            System.out.println("Player " + Player.targetPlayer + " not found or has no cards in hand.");
+        }
     }
 
-/*
+
     private void priestAction(Player targetPlayer) {
         // Implement logic for the Priest card
         // Example: Look at another player's hand.
@@ -113,8 +123,8 @@ public class Card {
 
 
 
-     */
-    public CardType makeGuess() {
+
+    public static CardType makeGuess() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Make a guess (Enter a number from 1 to 8): ");
         int guess = sc.nextInt();
@@ -134,11 +144,7 @@ public class Card {
         }
     }
 
-    public int chooseTargetPlayer(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Choose your target player with a number: ");
-        return sc.nextInt();
-    }
+
 
 
 
