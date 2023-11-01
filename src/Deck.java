@@ -15,18 +15,18 @@ public class Deck {
         cardsInDeck = 0;
 
         // Create a separate loop for each card type
-        addCards(Card.CardType.GUARD, 5);
-        addCards(Card.CardType.PRIEST, 2);
-        addCards(Card.CardType.BARON, 2);
-        addCards(Card.CardType.HANDMAID, 2);
-        addCards(Card.CardType.PRINCE, 2);
-        addCards(Card.CardType.KING, 1);
-        addCards(Card.CardType.COUNTESS, 1);
-        addCards(Card.CardType.PRINCESS, 1);
+        addCardsDeck(Card.CardType.GUARD, 5);
+        addCardsDeck(Card.CardType.PRIEST, 2);
+        addCardsDeck(Card.CardType.BARON, 2);
+        addCardsDeck(Card.CardType.HANDMAID, 2);
+        addCardsDeck(Card.CardType.PRINCE, 2);
+        addCardsDeck(Card.CardType.KING, 1);
+        addCardsDeck(Card.CardType.COUNTESS, 1);
+        addCardsDeck(Card.CardType.PRINCESS, 1);
     }
 
     // Helper method to add cards of a specific type to the deck
-    private void addCards(Card.CardType type, int count) {
+    private void addCardsDeck(Card.CardType type, int count) {
         for (int i = 0; i < count; i++) {
             if (cardsInDeck < cards.length) {
                 cards[cardsInDeck++] = new Card(type);

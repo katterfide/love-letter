@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Card {
     private CardType type;
@@ -27,17 +28,22 @@ public class Card {
 
             case PRIEST:
                 priestAction();
+                //can choose yourself?? to discard??
                 break;
-                 /*
+
             case BARON:
-                baronAction(currentPlayer, targetPlayer);
+                //baronAction();
+                System.out.println("to be implemented");
                 break;
+
             case HANDMAID:
-                handmaidAction(currentPlayer, targetPlayer);
+                handmaidAction();
                 break;
+
             case PRINCE:
-                princeAction(currentPlayer, targetPlayer);
+                princeAction();
                 break;
+                /*
             case KING:
                 kingAction(currentPlayer, targetPlayer);
                 break;
@@ -53,7 +59,9 @@ public class Card {
     }
 
 
-
+    ///////////////NEED TO DISCARD CARDS AND END TURN ALSO
+    ///Handmaid protection
+    //eliminated players need to be exempt from targeting
     private static void guardAction() {
         int targetPlayer = Player.chooseTargetPlayer();
 
@@ -87,44 +95,75 @@ public class Card {
 
         if (Player.getPlayerHand(targetPlayer) != null) {
             System.out.println("Player " + "\"" + Player.playerNames[targetPlayer] + "\"" + " has these cards in their hand at the moment: ");
-            for (String card : Player.getPlayerHand(targetPlayer)) {
+            for (String card : Objects.requireNonNull(Player.getPlayerHand(targetPlayer))) {
                 System.out.println(card);
             }
         } else {
             System.out.println("No hand found for player: " + Player.playerNames[targetPlayer]);
         }
-            //cant be eliminated player
+        //cant be eliminated player
     }
 
-    private void baronAction(Player currentPlayer, Player targetPlayer) {
+    /*
+    private void baronAction() { //Baron needs to be left out from comparison
 
-        System.out.println(currentPlayer.getName() + " plays Baron and compares hands with " + targetPlayer.getName() + ".");
+        // Compare the cards and eliminate the player with the lower-valued card
+        if (currentPlayerCard.getValue() > targetPlayerCard.getValue()) {
+            System.out.println(targetPlayer.getName() + " is eliminated.");
+            // Implement logic to eliminate the targetPlayer, for example: targetPlayer.eliminate();
+        } else if (currentPlayerCard.getValue() < targetPlayerCard.getValue()) {
+            System.out.println(currentPlayer.getName() + " is eliminated.");
+        } else {
+            System.out.println("No player is eliminated. Both players have the same card value.");
+        }
     }
 
-    private void handmaidAction(Player currentPlayer, Player targetPlayer) {
+     */
 
-        System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
+    private static void handmaidAction() {
+        System.out.println(GameState.currentPlayer + " plays Handmaid.");
+        GameState.setProtection(GameState.currentPlayerIndex, true);
+        System.out.println(GameState.currentPlayer + " is protected until the next turn.");
     }
 
-    private void princeAction(Player currentPlayer, Player targetPlayer) {
+    private static void princeAction() {
+        //includes yourself, draws card that was removed at the start of the round if no cards??
+        //draw new card when?
 
-        System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
+        int targetPlayer = Player.chooseTargetPlayer();
+        ArrayList<String> targetCards = Player.getPlayerHand(targetPlayer);
+
+
+        if (targetCards.size() > 0) {
+
+            targetCards.clear();
+            Card newCard = Deck. drawCard(1);
+
+            if (newCard != null) {
+                targetCards.add(newCard.getType().toString());
+                System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand and draws a new card.");
+            } else {
+                System.out.println("No more cards in the deck to draw.");
+            }
+        } else {
+            System.out.println("Player " + Player.playerNames[targetPlayer] + " has no cards in hand.");
+
+
+        }
+/*
+        private void kingAction (Player currentPlayer, Player targetPlayer){
+
+            System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
+        }
+
+        private void countessAction (Player currentPlayer, Player targetPlayer){
+
+            System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
+        }
     }
 
-    private void kingAction(Player currentPlayer, Player targetPlayer) {
+ */
 
-        System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
+
     }
-
-    private void countessAction(Player currentPlayer, Player targetPlayer) {
-
-        System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
-    }
-
-
-
-
-
-
-
 }

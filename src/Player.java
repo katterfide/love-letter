@@ -52,7 +52,6 @@ public class Player {
                     hand.add(card.getType().toString());
                 }
             }
-
             playerHands.put(playerName, hand);
         }
     }
@@ -171,6 +170,10 @@ public class Player {
     }
 
 
+    public void drawNewCard(int targetPlayer){
+
+
+    }
 
 
 

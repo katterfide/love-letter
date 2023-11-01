@@ -19,4 +19,21 @@ public class GameState {
     }
 
 
+
+    private static boolean[] playersProtected;
+
+    public static void initializePlayersProtection(int numberOfPlayers) {
+        playersProtected = new boolean[numberOfPlayers];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            playersProtected[i] = false;
+        }
+    }
+
+    public static void setProtection(int playerIndex, boolean isProtected) {
+            playersProtected[playerIndex] = isProtected;
+    }
+
+    //eliminated players array?
+    //lose protection after new round
 }
+

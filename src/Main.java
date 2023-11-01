@@ -25,6 +25,7 @@ public class Main {
 
         Player.generatePlayerHands(deck);
         Player.printALLPlayerHands();
+        GameState.initializePlayersProtection(Player.playerCount);
 
         deck.showDeck();
 
