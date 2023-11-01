@@ -40,6 +40,8 @@ public class Player {
 
     public static Card.CardType selectedCard;
 
+
+
     public static void generatePlayerHands(Deck deck) {
         playerHands = new HashMap<>();
         for (int i = 0; i < playerCount; i++) {
@@ -55,6 +57,7 @@ public class Player {
             playerHands.put(playerName, hand);
         }
     }
+
 
     public static void printALLPlayerHands() {
         System.out.println(playerHands);
@@ -168,13 +171,6 @@ public class Player {
                 return null; // Or handle the invalid guess in your specific way
         }
     }
-
-
-    public void drawNewCard(int targetPlayer){
-
-
-    }
-
 
 
 

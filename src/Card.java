@@ -43,10 +43,11 @@ public class Card {
             case PRINCE:
                 princeAction();
                 break;
-                /*
+
             case KING:
-                kingAction(currentPlayer, targetPlayer);
+                kingAction();
                 break;
+                 /*
             case COUNTESS:
                 countessAction(currentPlayer, targetPlayer);
                 break;
@@ -62,6 +63,7 @@ public class Card {
     ///////////////NEED TO DISCARD CARDS AND END TURN ALSO
     ///Handmaid protection
     //eliminated players need to be exempt from targeting
+    //princess also needs to be implemented
     private static void guardAction() {
         int targetPlayer = Player.chooseTargetPlayer();
 
@@ -86,7 +88,6 @@ public class Card {
             System.out.println("Player " + Player.playerNames[targetPlayer] + " not found or has no cards in hand.");
         }
     }
-
 
     private static void priestAction() {
         System.out.println("Which player do you want to compare hands with??");
@@ -118,7 +119,7 @@ public class Card {
         }
     }
 
-     */
+     */ //baron
 
     private static void handmaidAction() {
         System.out.println(GameState.currentPlayer + " plays Handmaid.");
@@ -128,7 +129,7 @@ public class Card {
 
     private static void princeAction() {
         //includes yourself, draws card that was removed at the start of the round if no cards??
-        //draw new card when?
+        //doesnt get red of princess!!
 
         int targetPlayer = Player.chooseTargetPlayer();
         ArrayList<String> targetCards = Player.getPlayerHand(targetPlayer);
@@ -137,7 +138,8 @@ public class Card {
         if (targetCards.size() > 0) {
 
             targetCards.clear();
-            Card newCard = Deck. drawCard();
+            Card newCard = Deck.drawCard();
+
 
             if (newCard != null) {
                 targetCards.add(newCard.getType().toString());
@@ -150,11 +152,30 @@ public class Card {
 
 
         }
-/*
-        private void kingAction (Player currentPlayer, Player targetPlayer){
+    }
 
-            System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
-        }
+    private static void kingAction() {
+
+        int targetPlayer = Player.chooseTargetPlayer();
+
+
+        System.out.println(GameState.currentPlayer + " plays King and exchanges hands with " + Player.playerNames[targetPlayer]);
+
+        ArrayList<String> temp = Player.getPlayerHand(GameState.currentPlayerIndex);
+        ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
+        ArrayList<String> targetPlayerHand = Player.getPlayerHand(targetPlayer);
+
+        currentPlayerHand.clear();
+        currentPlayerHand.addAll(targetPlayerHand);
+        targetPlayerHand.clear();
+        targetPlayerHand.addAll(temp);
+
+        System.out.println(GameState.currentPlayer + " plays Guard and guesses " + Player.playerNames[targetPlayer] + "'s hand card.");
+
+    }
+}
+
+        /*
 
         private void countessAction (Player currentPlayer, Player targetPlayer){
 
@@ -165,5 +186,5 @@ public class Card {
  */
 
 
-    }
-}
+
+
