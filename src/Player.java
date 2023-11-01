@@ -8,10 +8,7 @@ public class Player {
 
     public static String[] playerNames;
 
-
     public static Map<String, ArrayList<String>> playerHands;
-
-    private String name;
 
     public static void inputPlayerCount() {
         Scanner sc = new Scanner(System.in);
@@ -48,7 +45,7 @@ public class Player {
             String playerName = playerNames[i];
             ArrayList<String> hand = new ArrayList<>();
 
-            for (int j = i * 2; j < i * 2 + 2; j++) {
+            for (int j = i * 3; j < i * 2 + 3; j++) {
                 Card card = Deck.drawCard();
                 if (card != null) {
                     hand.add(card.getType().toString());
@@ -82,14 +79,6 @@ public class Player {
         } else {
             return null; // Handle cases where the player's cards are not found
         }
-    }
-
-    public Player(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public static int chooseTargetPlayer(){
@@ -172,6 +161,15 @@ public class Player {
         }
     }
 
+    static boolean hasRoyalsInHand() {
+        ArrayList<String> hand = Player.getPlayerHand(GameState.currentPlayerIndex);
+        return hand.contains("King") || hand.contains("Prince") || hand.contains("Princess");
+    }
+
+    static void discardCard(){
+        Player.getPlayerHand(GameState.currentPlayerIndex).remove(Player.selectedCard);
+        System.out.println("this should remove the used card??");
+    }
 
 
 

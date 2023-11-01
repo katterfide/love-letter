@@ -18,47 +18,49 @@ public class Card {
         return type;
     }
 
+    public static void playCard() { //SCAN IF KING OR PRINCE IN HAND FOR COUNTESS FIRST, BEFORE CHOICE
+        if (Player.hasRoyalsInHand()) {
+            System.out.println(GameState.currentPlayer + " plays Countess.");
+            Player.selectedCard = CardType.HANDMAID;}
+        else {
+            switch (Player.selectCard()) {
+                case GUARD:
+                    guardAction();
+                    //cannot choose yourself
+                    break;
 
-    public static void playCard() {
-        switch (Player.selectCard()) {
-            case GUARD:
-                guardAction();
-                //cannot choose yourself
-                break;
+                case PRIEST:
+                    priestAction();
+                    //can choose yourself?? to discard??
+                    break;
 
-            case PRIEST:
-                priestAction();
-                //can choose yourself?? to discard??
-                break;
+                case BARON:
+                    //baronAction();
+                    System.out.println("to be implemented");
+                    break;
 
-            case BARON:
-                //baronAction();
-                System.out.println("to be implemented");
-                break;
+                case HANDMAID:
+                    handmaidAction();
+                    break;
 
-            case HANDMAID:
-                handmaidAction();
-                break;
+                case PRINCE:
+                    princeAction();
+                    break;
 
-            case PRINCE:
-                princeAction();
-                break;
+                case KING:
+                    kingAction();
+                    break;
 
-            case KING:
-                kingAction();
-                break;
-                 /*
-            case COUNTESS:
-                countessAction(currentPlayer, targetPlayer);
-                break;
-            */
+                case COUNTESS:
+                    countessAction();
+                    break;
 
-            default:
-                System.out.println("No specific action for this card.");
-                break;
+                default:
+                    System.out.println("No specific action for this card.");
+                    break;
+            }
         }
     }
-
 
     ///////////////NEED TO DISCARD CARDS AND END TURN ALSO
     ///Handmaid protection
@@ -125,6 +127,7 @@ public class Card {
         System.out.println(GameState.currentPlayer + " plays Handmaid.");
         GameState.setProtection(GameState.currentPlayerIndex, true);
         System.out.println(GameState.currentPlayer + " is protected until the next turn.");
+        Player.discardCard();
     }
 
     private static void princeAction() {
@@ -149,9 +152,8 @@ public class Card {
             }
         } else {
             System.out.println("Player " + Player.playerNames[targetPlayer] + " has no cards in hand.");
-
-
         }
+        Player.discardCard();
     }
 
     private static void kingAction() {
@@ -172,18 +174,23 @@ public class Card {
 
         System.out.println(GameState.currentPlayer + " plays Guard and guesses " + Player.playerNames[targetPlayer] + "'s hand card.");
 
+        Player.discardCard();
     }
+
+    private static void countessAction(){
+
+        System.out.println(GameState.currentPlayer + " plays Countess.");
+    }
+
+
+
 }
 
-        /*
 
-        private void countessAction (Player currentPlayer, Player targetPlayer){
 
-            System.out.println(currentPlayer.getName() + " plays Guard and guesses " + targetPlayer.getName() + "'s hand card.");
-        }
-    }
 
- */
+
+
 
 
 
