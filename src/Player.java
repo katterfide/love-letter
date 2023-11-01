@@ -47,7 +47,7 @@ public class Player {
             ArrayList<String> hand = new ArrayList<>();
 
             for (int j = i * 2; j < i * 2 + 2; j++) {
-                Card card = Deck.drawCard(j);
+                Card card = Deck.drawCard();
                 if (card != null) {
                     hand.add(card.getType().toString());
                 }

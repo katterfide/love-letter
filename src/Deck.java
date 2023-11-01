@@ -42,13 +42,21 @@ public class Deck {
         cardList.toArray(cards);
     }
 
-    public static Card drawCard(int index) {
-        if (index >= 0 && index < cards.length && cards[index] != null) {
-            Card drawnCard = cards[index];
-            cards[index] = null; // Remove the card from the deck
+    public static Card drawCard() {
+        if (cards.length > 0 && cards[0] != null) {
+            Card drawnCard = cards[0];
+
+            //shift remaining cards left
+            for (int i = 1; i < cards.length; i++) {
+                cards[i - 1] = cards[i];
+            }
+
+            cards[cards.length - 1] = null; /////set the last position to null as the card has been removed
+            cards = Arrays.copyOf(cards, cards.length - 1); // reduce array length
+
             return drawnCard;
         } else {
-            return null; // Invalid index or no cards left in the deck
+            return null; // No cards left in the deck
         }
     }
 

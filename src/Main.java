@@ -17,6 +17,7 @@ public class Main {
         Deck.shuffleDeck();
 
         System.out.println("\nShuffled deck:");
+
         deck.showDeck();
 
 
@@ -32,6 +33,10 @@ public class Main {
         //Card.CardType playerSelectedCard = Player.selectCard();
 
         Card.playCard();
+
+        deck.showDeck();
+        Player.printALLPlayerHands();
+
 
 
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");

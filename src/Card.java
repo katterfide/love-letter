@@ -137,7 +137,7 @@ public class Card {
         if (targetCards.size() > 0) {
 
             targetCards.clear();
-            Card newCard = Deck. drawCard(1);
+            Card newCard = Deck. drawCard();
 
             if (newCard != null) {
                 targetCards.add(newCard.getType().toString());
