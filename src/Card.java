@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Card {
     private CardType type;
@@ -19,11 +18,11 @@ public class Card {
     }
 
 
-    public static void playCard(CardType playerSelectedCard) {
-        Player.selectedCard();
-        switch (Player.selectedCard()) {
+    public static void playCard() {
+        switch (Player.selectCard()) {
             case GUARD:
-                guardAction(Player.chooseTargetPlayer());
+                guardAction();
+                //cannot choose yourself
                 break;
                 /*
             case PRIEST:
@@ -54,27 +53,31 @@ public class Card {
 
 
 
-    private static void guardAction(int i) {
-        CardType guess = makeGuess();
-        i = Player.targetPlayer;
-        ArrayList<String> targetCards = Player.getPlayerHand(Player.targetPlayer);
+    private static void guardAction() {
+        int targetPlayer = Player.chooseTargetPlayer();
+
+        System.out.println("Which card do you think player #" + targetPlayer + " has?");
+        CardType guess = Player.makeGuess();
+
+        ArrayList<String> targetCards = Player.getPlayerHand(targetPlayer);
         //do i have those cards
         //currentplayerindex
+        //guess cant exceed current players
 
-        System.out.println(GameState.currentPlayer + " plays Guard and guesses Player " + Player.targetPlayer + "'s hand card as " + guess + ".");
+        System.out.println(GameState.currentPlayer + " plays Guard and guesses Player " + targetPlayer + "'s hand card as " + guess + ".");
 
         if (targetCards != null) {
             // Here, targetCards holds the cards of the targetPlayer
             // Perform the comparison or other actions as required
             if (targetCards.contains(guess.toString())) {
-                System.out.println("Correct guess! Player " + Player.targetPlayer + " is eliminated.");
+                System.out.println("Correct guess! Player " + targetPlayer + " is eliminated.");
                 // Implement logic to eliminate the targetPlayer
                 // For example: targetPlayer.eliminate();
             } else {
                 System.out.println("Incorrect guess. Nothing happens.");
             }
         } else {
-            System.out.println("Player " + Player.targetPlayer + " not found or has no cards in hand.");
+            System.out.println("Player " + targetPlayer + " not found or has no cards in hand.");
         }
     }
 
@@ -122,27 +125,6 @@ public class Card {
     }
 
 
-
-
-    public static CardType makeGuess() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Make a guess (Enter a number from 1 to 8): ");
-        int guess = sc.nextInt();
-
-        // Map the number input to the corresponding CardType (adjust according to your enumeration)
-        switch (guess) {
-            case 1:
-                return Card.CardType.GUARD;
-            case 2:
-                return Card.CardType.PRIEST;
-            case 3:
-                return Card.CardType.BARON;
-            // Add cases for other CardTypes as needed
-            default:
-                System.out.println("Invalid guess. Guess again.");
-                return null; // Or handle the invalid guess in your specific way
-        }
-    }
 
 
 

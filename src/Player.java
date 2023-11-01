@@ -7,7 +7,6 @@ public class Player {
     public static int playerCount = 0;
     public static String[] playerNames;
 
-    public static int targetPlayer;
 
     private static Map<String, ArrayList<String>> playerHands;
 
@@ -71,7 +70,7 @@ public class Player {
         } else {
             System.out.println("Player not found or no cards in hand.");
         }
-    }
+    } //what was i thinking here??
 
     public static ArrayList<String> getPlayerHand(int targetPlayer) {
         String playerName = playerNames[targetPlayer];
@@ -91,13 +90,13 @@ public class Player {
     }
 
     public static int chooseTargetPlayer(){
-        int targetPlayer = chooseTargetPlayer();
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose your target player with a number: ");
         return sc.nextInt();
     }
 
-    public static Card.CardType selectedCard(){
+    public static Card.CardType selectCard(){
         Scanner scanner = new Scanner(System.in);
 
         //get current player, checkfor cards
@@ -145,6 +144,29 @@ public class Player {
         }
         return selectedCard;
     }
+
+
+
+    public static Card.CardType makeGuess() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Make a guess (Enter a number from 1 to 8): ");
+        int guess = sc.nextInt();
+
+        // Map the number input to the corresponding CardType (adjust according to your enumeration)
+        switch (guess) {
+            case 1:
+                return Card.CardType.GUARD;
+            case 2:
+                return Card.CardType.PRIEST;
+            case 3:
+                return Card.CardType.BARON;
+            // Add cases for other CardTypes as needed
+            default:
+                System.out.println("Invalid guess. Guess again.");
+                return null; // Or handle the invalid guess in your specific way
+        }
+    }
+
 
 
 

@@ -28,9 +28,9 @@ public class Main {
 
         deck.showDeck();
 
-        Card.CardType playerSelectedCard = Player.selectedCard();
+        //Card.CardType playerSelectedCard = Player.selectCard();
 
-        Card.playCard(playerSelectedCard);
+        Card.playCard();
 
 
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
