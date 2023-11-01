@@ -5,10 +5,11 @@ import java.util.Scanner;
 
 public class Player {
     public static int playerCount = 0;
+
     public static String[] playerNames;
 
 
-    private static Map<String, ArrayList<String>> playerHands;
+    public static Map<String, ArrayList<String>> playerHands;
 
     private String name;
 
@@ -93,7 +94,11 @@ public class Player {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose your target player with a number: ");
-        return sc.nextInt();
+
+        for (int i = 0; (i < playerCount); i++){
+            System.out.println("press [" + (i + 1) + "] to select player " + "\"" + playerNames[i] + "\"");
+        }
+        return sc.nextInt() - 1;
     }
 
     public static Card.CardType selectCard(){
@@ -145,8 +150,6 @@ public class Player {
         return selectedCard;
     }
 
-
-
     public static Card.CardType makeGuess() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Make a guess (Enter a number from 1 to 8): ");
@@ -166,6 +169,9 @@ public class Player {
                 return null; // Or handle the invalid guess in your specific way
         }
     }
+
+
+
 
 
 
