@@ -8,6 +8,29 @@ public class Card {
         GUARD, PRIEST, BARON, HANDMAID, PRINCE, KING, COUNTESS, PRINCESS
     }
 
+    private static int cardValue(String card) {
+        switch (card) {
+            case "GUARD":
+                return 1;
+            case "PRIEST":
+                return 2;
+            case "Baron":
+                return 3;
+            case "Handmaid":
+                return 4;
+            case "Prince":
+                return 5;
+            case "King":
+                return 6;
+            case "Countess":
+                return 7;
+            case "Princess":
+                return 8;
+            default:
+                return 0;
+        }
+    }
+
     public Card(CardType type) {
 
         this.type = type;
@@ -36,8 +59,7 @@ public class Card {
                     break;
 
                 case BARON:
-                    //baronAction();
-                    System.out.println("to be implemented");
+                    baronAction(selectedCard);
                     break;
 
                 case HANDMAID:
@@ -55,6 +77,7 @@ public class Card {
                 case COUNTESS:
                     countessAction(selectedCard);
                     break;
+
 
                 default:
                     System.out.println("No specific action for this card.");
@@ -89,7 +112,7 @@ public class Card {
         } else {
             System.out.println("Player " + Player.playerNames[targetPlayer] + " not found or has no cards in hand.");
         }
-        Player.discardCard(selectedCard);
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
     private static void priestAction(CardType selectedCard) {
@@ -106,31 +129,48 @@ public class Card {
             System.out.println("No hand found for player: " + Player.playerNames[targetPlayer]);
         }
         //cant be eliminated player
-        Player.discardCard(selectedCard);
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
-    /*
-    private void baronAction() { //Baron needs to be left out from comparison
-    Player.discardCard(selectedCard);
 
-        // Compare the cards and eliminate the player with the lower-valued card
-        if (currentPlayerCard.getValue() > targetPlayerCard.getValue()) {
-            System.out.println(targetPlayer.getName() + " is eliminated.");
-            // Implement logic to eliminate the targetPlayer, for example: targetPlayer.eliminate();
-        } else if (currentPlayerCard.getValue() < targetPlayerCard.getValue()) {
-            System.out.println(currentPlayer.getName() + " is eliminated.");
+    private static void baronAction(CardType selectedCard) {
+
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
+        int targetPlayer = Player.chooseTargetPlayer();
+        int currentPlayerIndex = GameState.currentPlayerIndex;
+
+        ArrayList<String> targetPlayerCards = Player.getPlayerHand(targetPlayer);
+        ArrayList<String> currentPlayerCard = Player.getPlayerHand(currentPlayerIndex);
+
+        // Assuming you've defined a method cardValue as shown above
+        int currentPlayerValue = cardValue(currentPlayerCard.get(0));
+        int targetPlayerValue = cardValue(targetPlayerCards.get(0));
+
+        System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Baron.");
+        System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " has " + currentPlayerCard);
+        System.out.println(Player.playerNames[targetPlayer] + " has " + targetPlayerCards);
+
+        if (currentPlayerValue > targetPlayerValue) {
+            System.out.println(Player.playerNames[targetPlayer] + " is eliminated.");
+            GameState.eliminatePlayer(targetPlayer, true);
+
+        } else if (currentPlayerValue < targetPlayerValue) {
+            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " is eliminated.");
+            GameState.eliminatePlayer(currentPlayerIndex, true);
+
         } else {
             System.out.println("No player is eliminated. Both players have the same card value.");
         }
     }
 
-     */ //baron
+
+
 
     private static void handmaidAction(CardType selectedCard) {
         System.out.println(GameState.currentPlayer + " plays Handmaid.");
         GameState.setProtection(GameState.currentPlayerIndex, true);
         System.out.println(GameState.currentPlayer + " is protected until the next turn.");
-        Player.discardCard(selectedCard);
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
     private static void princeAction(CardType selectedCard) {
@@ -145,6 +185,7 @@ public class Card {
 
             targetCards.clear();
             Card newCard = Deck.drawCard();
+
 
 
             if (newCard != null) {
@@ -168,7 +209,7 @@ public class Card {
             System.out.println("Player " + Player.playerNames[targetPlayer] + " has no cards in hand.");
         }
 
-        Player.discardCard(selectedCard);
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
     private static void kingAction(CardType selectedCard) {
@@ -189,13 +230,12 @@ public class Card {
 
         System.out.println(GameState.currentPlayer + " plays Guard and guesses " + Player.playerNames[targetPlayer] + "'s hand card.");
 
-        Player.discardCard(selectedCard);
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
     private static void countessAction(CardType selectedCard){
-
         System.out.println(GameState.currentPlayer + " plays Countess.");
-        Player.discardCard(selectedCard);
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
 

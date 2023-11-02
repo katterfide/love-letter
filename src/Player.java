@@ -74,11 +74,8 @@ public class Player {
 
     public static ArrayList<String> getPlayerHand(int targetPlayer) {
         String playerName = playerNames[targetPlayer];
-        if (playerHands.containsKey(playerName)) {
-            return playerHands.get(playerName);
-        } else {
-            return null; // Handle cases where the player's cards are not found
-        }
+
+        return playerHands.getOrDefault(playerName, null); // Handle cases where the player's cards are not found
     }
 
     public static int chooseTargetPlayer() {
@@ -121,6 +118,8 @@ public class Player {
         System.out.println("5 - PRINCE");
         System.out.println("6 - KING");
         System.out.println("7 - COUNTESS");
+        System.out.println("=Cannot discard Princess=");
+
 
         int choice = scanner.nextInt();
         Card.CardType selectedCard = null;
@@ -201,7 +200,7 @@ public class Player {
         return hand.contains("King") || hand.contains("Prince") || hand.contains("Princess");
     }
 
-    static void discardCard(Card.CardType selectedCard) {
+    static void discardCard(Card.CardType selectedCard, int targetPlayer) {
         ArrayList<String> currentPlayerHand = playerHands.get(playerNames[GameState.currentPlayerIndex]);
         currentPlayerHand.remove(selectedCard.toString()); // Remove by the card type string
         playerHands.put(playerNames[GameState.currentPlayerIndex], currentPlayerHand);

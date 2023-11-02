@@ -22,6 +22,7 @@ public class GameState {
     public static void setProtection(int playerIndex, boolean isProtected) {
             playersProtected[playerIndex] = isProtected;
         //lose protection after new round
+        //deck empty Win condition
     }
 
 
@@ -65,7 +66,7 @@ public class GameState {
 
 
 
-
+//tokens
 
 }
 

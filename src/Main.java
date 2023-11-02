@@ -23,6 +23,14 @@ public class Main {
 
         Player.inputPlayerCount();
         Player.inputPlayerNames();
+        //Shuffle these 16 cards to form a face-down draw deck. Remove the top card of the deck from the game without
+        //looking at it and place it aside.
+
+        //f you are playing a 2-player game, take 3 more cards from the top of the deck and place them to the side, face up.
+        //They will not be used during this round, but are available for all players to examine during the game.
+
+        //tokens?!
+
 
         GameState.initializePlayersProtection(); //initialize protectionarray with everyone NOT protected
 
@@ -40,6 +48,9 @@ public class Main {
 
         Card.playCard();
         GameState.endTurn();
+        Player.printALLPlayerHands();
+        //only one card to draw on initialize ( depending on playercount)
+        //draw on start of round
 
 
 
