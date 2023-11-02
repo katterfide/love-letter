@@ -81,15 +81,31 @@ public class Player {
         }
     }
 
-    public static int chooseTargetPlayer(){
-
+    public static int chooseTargetPlayer() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Choose your target player with a number: ");
+        int targetPlayer;
 
-        for (int i = 0; (i < playerCount); i++){
-            System.out.println("press [" + (i + 1) + "] to select player " + "\"" + playerNames[i] + "\"");
-        }
-        return sc.nextInt() - 1;
+        do {
+            System.out.println("Choose your target player with a number: ");
+            for (int i = 0; i < playerCount; i++) {
+                System.out.println("Press [" + (i + 1) + "] to select player \"" + playerNames[i] + "\"");
+            }
+            targetPlayer = sc.nextInt() - 1;
+
+            if (targetPlayer < 0 || targetPlayer >= playerCount) {
+                System.out.println("Invalid player choice. Please try again.");
+                continue;
+            }
+
+            if (GameState.playersEliminated[targetPlayer]) {
+                System.out.println("This player is already eliminated and cannot be targeted.");
+            } else if (GameState.playersProtected[targetPlayer]) {
+                System.out.println("Player is protected by the handmaid until the end of this round and cannot be targeted.");
+                System.out.println("Please guess again.");
+            }
+        } while (targetPlayer < 0 || targetPlayer >= playerCount || GameState.playersEliminated[targetPlayer] || GameState.playersProtected[targetPlayer]);
+
+        return targetPlayer;
     }
 
     public static Card.CardType selectCard(){

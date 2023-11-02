@@ -18,7 +18,7 @@ public class Card {
         return type;
     }
 
-    public static void playCard() { //SCAN IF KING OR PRINCE IN HAND FOR COUNTESS FIRST, BEFORE CHOICE
+    public static void playCard() {
         if (Player.hasRoyalsInHand()) {
             System.out.println(GameState.currentPlayer + " plays Countess.");
             Player.selectedCard = CardType.COUNTESS;}
@@ -63,9 +63,7 @@ public class Card {
         }
     }
 
-    ///////////////NEED TO DISCARD CARDS AND END TURN ALSO
     ///Handmaid protection
-    //eliminated players need to be exempt from targeting
     //princess also needs to be implemented
     private static void guardAction(CardType selectedCard) {
         int targetPlayer = Player.chooseTargetPlayer();
