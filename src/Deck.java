@@ -53,9 +53,10 @@ public class Deck {
 
             cards[cards.length - 1] = null; /////set the last position to null as the card has been removed
             cards = Arrays.copyOf(cards, cards.length - 1); // reduce array length
-
             return drawnCard;
+
         } else {
+            System.out.println("No cards left in deck.");
             return null; // No cards left in the deck
         }
     }

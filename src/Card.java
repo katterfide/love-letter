@@ -42,6 +42,11 @@ public class Card {
     }
 
     public static void playCard() {
+
+        //drawCard with turn
+        Card newCard = Deck.drawCard();
+        Player.getPlayerHand(GameState.currentPlayerIndex).add(newCard.getType().toString());
+
         if (Player.hasRoyalsInHand()) {
             System.out.println(GameState.currentPlayer + " plays Countess.");
             Player.selectedCard = CardType.COUNTESS;}
@@ -185,7 +190,6 @@ public class Card {
 
             targetCards.clear();
             Card newCard = Deck.drawCard();
-
 
 
             if (newCard != null) {
