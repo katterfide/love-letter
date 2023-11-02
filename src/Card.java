@@ -37,22 +37,38 @@ public class Card {
     }
 
     public CardType getType() {
-
         return type;
     }
 
     public static void playCard() {
 
-        //drawCard with turn
+        //set Handmaid protection to false, because if theyre playing a card a round mustve passed
+        GameState.playersProtected[GameState.currentPlayerIndex] = false;
+
+        //draw card
         Card newCard = Deck.drawCard();
         Player.getPlayerHand(GameState.currentPlayerIndex).add(newCard.getType().toString());
 
+        //if royals in hand, handmaid is picked and played automatically
         if (Player.hasRoyalsInHand()) {
             System.out.println(GameState.currentPlayer + " plays Countess.");
-            Player.selectedCard = CardType.COUNTESS;}
+            Player.selectedCard = CardType.COUNTESS;
+        }
+
         else {
-            CardType selectedCard = Player.selectCard();
+            System.out.println("Pick a card to play");
+            CardType selectedCard = Player.selectCard();//reinit because had issue selectedCard staying null
+
+            ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
+
+            while(!currentPlayerHand.contains(selectedCard.toString())){
+                System.out.println(selectedCard + " is not in your hand.");
+                System.out.println("Please choose again.");
+                selectedCard = Player.selectCard();
+            }
+
             switch (selectedCard) {
+
                 case GUARD:
                     guardAction(selectedCard);
                     //cannot choose yourself
@@ -83,7 +99,6 @@ public class Card {
                     countessAction(selectedCard);
                     break;
 
-
                 default:
                     System.out.println("No specific action for this card.");
                     break;
@@ -91,7 +106,6 @@ public class Card {
         }
     }
 
-    ///Handmaid protection
     //princess also needs to be implemented
     private static void guardAction(CardType selectedCard) {
         int targetPlayer = Player.chooseTargetPlayer();
@@ -137,7 +151,6 @@ public class Card {
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
-
     private static void baronAction(CardType selectedCard) {
 
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
@@ -147,7 +160,6 @@ public class Card {
         ArrayList<String> targetPlayerCards = Player.getPlayerHand(targetPlayer);
         ArrayList<String> currentPlayerCard = Player.getPlayerHand(currentPlayerIndex);
 
-        // Assuming you've defined a method cardValue as shown above
         int currentPlayerValue = cardValue(currentPlayerCard.get(0));
         int targetPlayerValue = cardValue(targetPlayerCards.get(0));
 
@@ -167,9 +179,6 @@ public class Card {
             System.out.println("No player is eliminated. Both players have the same card value.");
         }
     }
-
-
-
 
     private static void handmaidAction(CardType selectedCard) {
         System.out.println(GameState.currentPlayer + " plays Handmaid.");
@@ -243,6 +252,13 @@ public class Card {
     }
 
 
+/*
+    private static void princessAction(){
+        System.out.println(GameState.currentPlayer + " plays Countess.");
+        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
+    }
+
+ */
 
 }
 

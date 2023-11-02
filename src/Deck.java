@@ -31,7 +31,7 @@ public class Deck {
             if (cardsInDeck < cards.length) {
                 cards[cardsInDeck++] = new Card(type);
             } else {
-                break; // Avoid adding cards beyond the deck size
+                break; // avoids adding cards beyond the deck size
             }
         }
     }
@@ -61,6 +61,8 @@ public class Deck {
         }
     }
 
+
+    //just a errorhunting method
     public void showDeck() {
         for (int i = 0; i < cards.length; i++) {
             if (cards[i] != null) {

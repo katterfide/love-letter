@@ -11,13 +11,17 @@ public class GameState {
     public static boolean[] playersEliminated;
 
 
+
     public static void initializePlayersProtection() {
         int numberOfPlayers = Player.playerCount;
-        playersProtected = new boolean[numberOfPlayers];
-        for (int i = 0; i < numberOfPlayers; i++) {
-            playersProtected[i] = false;
+            playersProtected = new boolean[numberOfPlayers];
+            for (int i = 0; i < numberOfPlayers; i++) {
+                playersProtected[i] = false;
+
         }
     }
+
+
 
     public static void setProtection(int playerIndex, boolean isProtected) {
             playersProtected[playerIndex] = isProtected;
@@ -64,7 +68,11 @@ public class GameState {
 
 
 
+    public static void checkWinCondition(){
 
+    }
+
+    public String[] playerTokenArray;
 
 //tokens
 

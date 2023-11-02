@@ -41,23 +41,51 @@ public class Player {
 
     public static void generatePlayerHands(Deck deck) {
         playerHands = new HashMap<>();
+        int numberOfPlayers = Player.playerCount;
+
+        if (numberOfPlayers == 2) {
+
+            System.out.println("You are playing the 2 player variant.");
+            System.out.println("3 cards have been removed from the top of the deck.");
+            System.out.println("These are the 3 cards that will not be in your game.");
+
+            Card topCard1 = Deck.drawCard();
+            System.out.println(topCard1.getType().toString());
+
+            Card topCard2 = Deck.drawCard();
+            System.out.println(topCard2.getType().toString());
+
+            Card topCard3 = Deck.drawCard();
+            System.out.println(topCard3.getType().toString());
+
+        }
+
+
+
         for (int i = 0; i < playerCount; i++) {
+
             String playerName = playerNames[i];
             ArrayList<String> hand = new ArrayList<>();
 
             for (int j = i; j < i + 1; j++) {
+
                 Card card = Deck.drawCard();
                 if (card != null) {
                     hand.add(card.getType().toString());
                 }
+
             }
+
             playerHands.put(playerName, hand);
+
         }
     }
 
 
     public static void printALLPlayerHands() {
+
         System.out.println(playerHands);
+
     }
 
     public static void displayPlayerHand(String playerName) {
@@ -73,32 +101,43 @@ public class Player {
     } // for \showCards
 
     public static ArrayList<String> getPlayerHand(int targetPlayer) {
+
         String playerName = playerNames[targetPlayer];
 
         return playerHands.getOrDefault(playerName, null); // Handle cases where the player's cards are not found
+
     }
 
     public static int chooseTargetPlayer() {
+
         Scanner sc = new Scanner(System.in);
         int targetPlayer;
 
         do {
+
             System.out.println("Choose your target player with a number: ");
+
             for (int i = 0; i < playerCount; i++) {
                 System.out.println("Press [" + (i + 1) + "] to select player \"" + playerNames[i] + "\"");
+
             }
             targetPlayer = sc.nextInt() - 1;
 
             if (targetPlayer < 0 || targetPlayer >= playerCount) {
+
                 System.out.println("Invalid player choice. Please try again.");
                 continue;
             }
 
             if (GameState.playersEliminated[targetPlayer]) {
+
                 System.out.println("This player is already eliminated and cannot be targeted.");
+
             } else if (GameState.playersProtected[targetPlayer]) {
+
                 System.out.println("Player is protected by the handmaid until the end of this round and cannot be targeted.");
                 System.out.println("Please guess again.");
+
             }
         } while (targetPlayer < 0 || targetPlayer >= playerCount || GameState.playersEliminated[targetPlayer] || GameState.playersProtected[targetPlayer]);
 
@@ -106,11 +145,12 @@ public class Player {
     }
 
     public static Card.CardType selectCard(){
+
         Scanner scanner = new Scanner(System.in);
 
-        //get current player, checkfor cards
+        //get current player, check for cards
 
-        System.out.println("Choose a card type:");
+        System.out.println("Choose a card with the corresponding number:");
         System.out.println("1 - GUARD");
         System.out.println("2 - PRIEST");
         System.out.println("3 - BARON");
@@ -124,35 +164,45 @@ public class Player {
         int choice = scanner.nextInt();
         Card.CardType selectedCard = null;
         switch (choice) {
+
             case 1:
                 selectedCard = Card.CardType.GUARD;
                 break;
+
             case 2:
                 selectedCard = Card.CardType.PRIEST;
                 break;
+
             case 3:
                 selectedCard = Card.CardType.BARON;
                 break;
+
             case 4:
                 selectedCard = Card.CardType.HANDMAID;
                 break;
+
             case 5:
                 selectedCard = Card.CardType.PRINCE;
                 break;
+
             case 6:
                 selectedCard = Card.CardType.KING;
                 break;
+
             case 7:
                 selectedCard = Card.CardType.COUNTESS;
                 break;
+
             default:
                 System.out.println("Invalid choice.");
         }
 
         if (selectedCard != null) {
+
             System.out.println("You selected: " + selectedCard);
 
         }
+
         return selectedCard;
     }
 

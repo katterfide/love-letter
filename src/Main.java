@@ -20,7 +20,6 @@ public class Main {
 
         deck.showDeck();
 
-
         Player.inputPlayerCount();
         Player.inputPlayerNames();
         //Shuffle these 16 cards to form a face-down draw deck. Remove the top card of the deck from the game without
@@ -51,6 +50,7 @@ public class Main {
         Player.printALLPlayerHands();
         //only one card to draw on initialize ( depending on playercount)
         //draw on start of round
+        //check for card
 
 
 
