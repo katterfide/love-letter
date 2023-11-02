@@ -24,18 +24,22 @@ public class Main {
         Player.inputPlayerCount();
         Player.inputPlayerNames();
 
+        GameState.initializePlayersProtection(); //initialize protectionarray with everyone NOT protected
+
+        GameState.initializeEliminationArray();
+
+
+
+
         Player.generatePlayerHands(deck);
+
         Player.printALLPlayerHands();
-        GameState.initializePlayersProtection(Player.playerCount);
+
 
         deck.showDeck();
-
-        //Card.CardType playerSelectedCard = Player.selectCard();
 
         Card.playCard();
-
-        deck.showDeck();
-        Player.printALLPlayerHands();
+        GameState.endTurn();
 
 
 

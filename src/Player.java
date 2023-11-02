@@ -45,7 +45,7 @@ public class Player {
             String playerName = playerNames[i];
             ArrayList<String> hand = new ArrayList<>();
 
-            for (int j = i * 3; j < i * 2 + 3; j++) {
+            for (int j = i * 2; j < i * 2 + 2; j++) {
                 Card card = Deck.drawCard();
                 if (card != null) {
                     hand.add(card.getType().toString());
@@ -70,7 +70,7 @@ public class Player {
         } else {
             System.out.println("Player not found or no cards in hand.");
         }
-    } //what was i thinking here??
+    } // for \showCards
 
     public static ArrayList<String> getPlayerHand(int targetPlayer) {
         String playerName = playerNames[targetPlayer];
@@ -143,7 +143,17 @@ public class Player {
 
     public static Card.CardType makeGuess() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Make a guess (Enter a number from 1 to 8): ");
+
+        System.out.println("Make a guess, press: ");
+        System.out.println("[1] to guess Guard");
+        System.out.println("[2] to guess Priest");
+        System.out.println("[3] to guess Baron");
+        System.out.println("[4] to guess Handmaid");
+        System.out.println("[5] to guess Prince");
+        System.out.println("[6] to guess King");
+        System.out.println("[7] to guess Countess");
+        System.out.println("[8] to guess Princess");
+
         int guess = sc.nextInt();
 
         // Map the number input to the corresponding CardType (adjust according to your enumeration)
@@ -154,7 +164,16 @@ public class Player {
                 return Card.CardType.PRIEST;
             case 3:
                 return Card.CardType.BARON;
-            // Add cases for other CardTypes as needed
+            case 4:
+                return Card.CardType.HANDMAID;
+            case 5:
+                return Card.CardType.PRINCE;
+            case 6:
+                return Card.CardType.KING;
+            case 7:
+                return Card.CardType.COUNTESS;
+            case 8:
+                return Card.CardType.PRINCESS;
             default:
                 System.out.println("Invalid guess. Guess again.");
                 return null; // Or handle the invalid guess in your specific way
@@ -166,9 +185,10 @@ public class Player {
         return hand.contains("King") || hand.contains("Prince") || hand.contains("Princess");
     }
 
-    static void discardCard(){
-        Player.getPlayerHand(GameState.currentPlayerIndex).remove(Player.selectedCard);
-        System.out.println("this should remove the used card??");
+    static void discardCard(Card.CardType selectedCard) {
+        ArrayList<String> currentPlayerHand = playerHands.get(playerNames[GameState.currentPlayerIndex]);
+        currentPlayerHand.remove(selectedCard.toString()); // Remove by the card type string
+        playerHands.put(playerNames[GameState.currentPlayerIndex], currentPlayerHand);
     }
 
 

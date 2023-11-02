@@ -21,16 +21,17 @@ public class Card {
     public static void playCard() { //SCAN IF KING OR PRINCE IN HAND FOR COUNTESS FIRST, BEFORE CHOICE
         if (Player.hasRoyalsInHand()) {
             System.out.println(GameState.currentPlayer + " plays Countess.");
-            Player.selectedCard = CardType.HANDMAID;}
+            Player.selectedCard = CardType.COUNTESS;}
         else {
-            switch (Player.selectCard()) {
+            CardType selectedCard = Player.selectCard();
+            switch (selectedCard) {
                 case GUARD:
-                    guardAction();
+                    guardAction(selectedCard);
                     //cannot choose yourself
                     break;
 
                 case PRIEST:
-                    priestAction();
+                    priestAction(selectedCard);
                     //can choose yourself?? to discard??
                     break;
 
@@ -40,19 +41,19 @@ public class Card {
                     break;
 
                 case HANDMAID:
-                    handmaidAction();
+                    handmaidAction(selectedCard);
                     break;
 
                 case PRINCE:
-                    princeAction();
+                    princeAction(selectedCard);
                     break;
 
                 case KING:
-                    kingAction();
+                    kingAction(selectedCard);
                     break;
 
                 case COUNTESS:
-                    countessAction();
+                    countessAction(selectedCard);
                     break;
 
                 default:
@@ -66,7 +67,7 @@ public class Card {
     ///Handmaid protection
     //eliminated players need to be exempt from targeting
     //princess also needs to be implemented
-    private static void guardAction() {
+    private static void guardAction(CardType selectedCard) {
         int targetPlayer = Player.chooseTargetPlayer();
 
         System.out.println("Which card do you think player " + "\"" + Player.playerNames[targetPlayer] + "\"" + " has?");
@@ -82,6 +83,7 @@ public class Card {
 
             if (targetCards.contains(guess.toString())) {
                 System.out.println("Correct guess! Player " + Player.playerNames[targetPlayer] + " is eliminated.");
+                GameState.eliminatePlayer(targetPlayer, true);
 
             } else {
                 System.out.println("Incorrect guess. Nothing happens.");
@@ -89,9 +91,10 @@ public class Card {
         } else {
             System.out.println("Player " + Player.playerNames[targetPlayer] + " not found or has no cards in hand.");
         }
+        Player.discardCard(selectedCard);
     }
 
-    private static void priestAction() {
+    private static void priestAction(CardType selectedCard) {
         System.out.println("Which player do you want to compare hands with??");
         int targetPlayer = Player.chooseTargetPlayer();
 
@@ -105,10 +108,12 @@ public class Card {
             System.out.println("No hand found for player: " + Player.playerNames[targetPlayer]);
         }
         //cant be eliminated player
+        Player.discardCard(selectedCard);
     }
 
     /*
     private void baronAction() { //Baron needs to be left out from comparison
+    Player.discardCard(selectedCard);
 
         // Compare the cards and eliminate the player with the lower-valued card
         if (currentPlayerCard.getValue() > targetPlayerCard.getValue()) {
@@ -123,16 +128,16 @@ public class Card {
 
      */ //baron
 
-    private static void handmaidAction() {
+    private static void handmaidAction(CardType selectedCard) {
         System.out.println(GameState.currentPlayer + " plays Handmaid.");
         GameState.setProtection(GameState.currentPlayerIndex, true);
         System.out.println(GameState.currentPlayer + " is protected until the next turn.");
-        Player.discardCard();
+        Player.discardCard(selectedCard);
     }
 
-    private static void princeAction() {
+    private static void princeAction(CardType selectedCard) {
         //includes yourself, draws card that was removed at the start of the round if no cards??
-        //doesnt get red of princess!!
+        //doesnt get red of princess in your own hand
 
         int targetPlayer = Player.chooseTargetPlayer();
         ArrayList<String> targetCards = Player.getPlayerHand(targetPlayer);
@@ -145,18 +150,30 @@ public class Card {
 
 
             if (newCard != null) {
-                targetCards.add(newCard.getType().toString());
-                System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand and draws a new card.");
-            } else {
+
+                if (targetCards.contains("Princess")){
+                    System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand which contained a princess and was eliminated.");
+                    GameState.eliminatePlayer(targetPlayer, true);
+                }
+                else {
+                    targetCards.add(newCard.getType().toString());
+                    System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand and draws a new card.");
+                }
+            }
+
+            else {
                 System.out.println("No more cards in the deck to draw.");
             }
-        } else {
+        }
+
+        else {
             System.out.println("Player " + Player.playerNames[targetPlayer] + " has no cards in hand.");
         }
-        Player.discardCard();
+
+        Player.discardCard(selectedCard);
     }
 
-    private static void kingAction() {
+    private static void kingAction(CardType selectedCard) {
 
         int targetPlayer = Player.chooseTargetPlayer();
 
@@ -174,12 +191,13 @@ public class Card {
 
         System.out.println(GameState.currentPlayer + " plays Guard and guesses " + Player.playerNames[targetPlayer] + "'s hand card.");
 
-        Player.discardCard();
+        Player.discardCard(selectedCard);
     }
 
-    private static void countessAction(){
+    private static void countessAction(CardType selectedCard){
 
         System.out.println(GameState.currentPlayer + " plays Countess.");
+        Player.discardCard(selectedCard);
     }
 
 
