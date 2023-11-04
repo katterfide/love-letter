@@ -107,27 +107,35 @@ public class Card {
 
         int targetPlayer = Player.chooseTargetPlayer();
 
-        System.out.println("Which card do you think player " + "\"" + Player.playerNames[targetPlayer] + "\"" + " has?");
-        CardType guess = Player.makeGuess();
+        if (GameState.currentPlayerIndex != targetPlayer){
 
-        ArrayList<String> targetCards = Player.getPlayerHand(targetPlayer);
-        //do i have those cards
-        //currentplayerindex
-        //guess cant exceed current players
-        System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Guard and guesses Player " + Player.playerNames[targetPlayer] + "'s hand card as " + guess + ".");
+            System.out.println("Which card do you think player " + "\"" + Player.playerNames[targetPlayer] + "\"" + " has?");
+            CardType guess = Player.makeGuess();
 
-        if (targetCards != null) {
+            ArrayList<String> targetCards = Player.getPlayerHand(targetPlayer);
+            //do i have those cards
+            //currentplayerindex
+            //guess cant exceed current players
+            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Guard and guesses Player " + Player.playerNames[targetPlayer] + "'s hand card as " + guess + ".");
 
-            if (targetCards.contains(guess.toString())) {
-                System.out.println("Correct guess! Player " + Player.playerNames[targetPlayer] + " is eliminated.");
-                GameState.eliminatePlayer(targetPlayer, true);
+            if (targetCards != null) {
 
+                if (targetCards.contains(guess.toString())) {
+                    System.out.println("Correct guess! Player " + Player.playerNames[targetPlayer] + " is eliminated.");
+                    GameState.eliminatePlayer(targetPlayer, true);
+
+                } else {
+                    System.out.println("Incorrect guess. Nothing happens.");
+                }
             } else {
-                System.out.println("Incorrect guess. Nothing happens.");
+                System.out.println("Player " + Player.playerNames[targetPlayer] + " not found or has no cards in hand.");
             }
-        } else {
-            System.out.println("Player " + Player.playerNames[targetPlayer] + " not found or has no cards in hand.");
+        } else if (GameState.currentPlayerIndex == targetPlayer) {
+            System.out.println("Discarding card without applying effect.");
+
         }
+
+
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
@@ -135,14 +143,20 @@ public class Card {
         System.out.println("Which player do you want to compare hands with??");
         int targetPlayer = Player.chooseTargetPlayer();
 
+        if (GameState.currentPlayerIndex != targetPlayer){
 
-        if (Player.getPlayerHand(targetPlayer) != null) {
-            System.out.println("Player " + "\"" + Player.playerNames[targetPlayer] + "\"" + " has these cards in their hand at the moment: ");
-            for (String card : Objects.requireNonNull(Player.getPlayerHand(targetPlayer))) {
-                System.out.println(card);
+            if (Player.getPlayerHand(targetPlayer) != null) {
+                System.out.println("Player " + "\"" + Player.playerNames[targetPlayer] + "\"" + " has these cards in their hand at the moment: ");
+                for (String card : Objects.requireNonNull(Player.getPlayerHand(targetPlayer))) {
+                    System.out.println(card);
+                }
+            } else {
+                System.out.println("No hand found for player: " + Player.playerNames[targetPlayer]);
             }
-        } else {
-            System.out.println("No hand found for player: " + Player.playerNames[targetPlayer]);
+
+        } else if (GameState.currentPlayerIndex == targetPlayer) {
+            System.out.println("Discarding card without applying effect.");
+
         }
         //cant be eliminated player
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
@@ -154,26 +168,32 @@ public class Card {
         int targetPlayer = Player.chooseTargetPlayer();
         int currentPlayerIndex = GameState.currentPlayerIndex;
 
-        ArrayList<String> targetPlayerCards = Player.getPlayerHand(targetPlayer);
-        ArrayList<String> currentPlayerCard = Player.getPlayerHand(currentPlayerIndex);
+        if (GameState.currentPlayerIndex != targetPlayer) {
 
-        int currentPlayerValue = cardValue(currentPlayerCard.get(0));
-        int targetPlayerValue = cardValue(targetPlayerCards.get(0));
+            ArrayList<String> targetPlayerCards = Player.getPlayerHand(targetPlayer);
+            ArrayList<String> currentPlayerCard = Player.getPlayerHand(currentPlayerIndex);
 
-        System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Baron.");
-        System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " has " + currentPlayerCard);
-        System.out.println(Player.playerNames[targetPlayer] + " has " + targetPlayerCards);
+            int currentPlayerValue = cardValue(currentPlayerCard.get(0));
+            int targetPlayerValue = cardValue(targetPlayerCards.get(0));
 
-        if (currentPlayerValue > targetPlayerValue) {
-            System.out.println(Player.playerNames[targetPlayer] + " is eliminated.");
-            GameState.eliminatePlayer(targetPlayer, true);
+            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Baron.");
+            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " has " + currentPlayerCard);
+            System.out.println(Player.playerNames[targetPlayer] + " has " + targetPlayerCards);
 
-        } else if (currentPlayerValue < targetPlayerValue) {
-            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " is eliminated.");
-            GameState.eliminatePlayer(currentPlayerIndex, true);
+            if (currentPlayerValue > targetPlayerValue) {
+                System.out.println(Player.playerNames[targetPlayer] + " is eliminated.");
+                GameState.eliminatePlayer(targetPlayer, true);
 
-        } else {
-            System.out.println("No player is eliminated. Both players have the same card value.");
+            } else if (currentPlayerValue < targetPlayerValue) {
+                System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " is eliminated.");
+                GameState.eliminatePlayer(currentPlayerIndex, true);
+
+            } else {
+                System.out.println("No player is eliminated. Both players have the same card value.");
+            }
+        }
+        else if (GameState.currentPlayerIndex == targetPlayer) {
+            System.out.println("Discarding card without applying effect.");
         }
     }
 
@@ -191,8 +211,31 @@ public class Card {
         int targetPlayer = Player.chooseTargetPlayer();
         ArrayList<String> targetCards = Player.getPlayerHand(targetPlayer);
 
+        if (targetPlayer != GameState.currentPlayerIndex) {
 
-        if (targetCards.size() > 0) {
+            if (!targetCards.isEmpty()) {
+
+                targetCards.clear();
+                Card newCard = Deck.drawCard();
+
+
+                if (newCard != null) {
+
+                    if (targetCards.contains("Princess")) {
+                        System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand which contained a princess and was eliminated.");
+                        GameState.eliminatePlayer(targetPlayer, true);
+                    } else {
+                        targetCards.add(newCard.getType().toString());
+                        System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand and draws a new card.");
+                    }
+                } else {
+                    System.out.println("No more cards in the deck to draw.");
+                }
+            } else {
+                System.out.println("Player " + Player.playerNames[targetPlayer] + " has no cards in hand.");
+            }
+        }
+        else if((targetPlayer == GameState.currentPlayerIndex && !Player.getPlayerHand(GameState.currentPlayerIndex).contains("PRINCESS"))){
 
             targetCards.clear();
             Card newCard = Deck.drawCard();
@@ -200,23 +243,12 @@ public class Card {
 
             if (newCard != null) {
 
-                if (targetCards.contains("Princess")){
-                    System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand which contained a princess and was eliminated.");
-                    GameState.eliminatePlayer(targetPlayer, true);
-                }
-                else {
                     targetCards.add(newCard.getType().toString());
                     System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand and draws a new card.");
-                }
-            }
 
-            else {
+            } else {
                 System.out.println("No more cards in the deck to draw.");
             }
-        }
-
-        else {
-            System.out.println("Player " + Player.playerNames[targetPlayer] + " has no cards in hand.");
         }
 
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);

@@ -17,11 +17,17 @@ public class Main {
         GameState.establishStartingPlayer();
 
         //these have to be outside because otherwise playerName = null and error and explosion
+//which cards could eliminate with princess??
 
+        //Baron work?
+
+        //does countess work?
 
         GameState.newGame();
 
         //we have a champion
+
+        //target eliminated player
 
 
         //starting player by token/previousRound
