@@ -310,18 +310,19 @@ public class GameState {
 
 
 
-    public static int nextInt(Scanner scanner) {
+    public static int nextInt(Scanner sc) {
+
         int value;
         while (true) {
             try {
-                value = Integer.parseInt(scanner.nextLine());
+                value = Integer.parseInt(sc.next());
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
             }
         }
         return value;
-    }
+    } //catches stringinputs for int inputs
 
 
 

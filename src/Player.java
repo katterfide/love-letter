@@ -14,7 +14,15 @@ public class Player {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("How many players are there? (2-4)");
-            playerCount = sc.nextInt();
+
+            while (true) {
+                try {
+                    playerCount = Integer.parseInt(sc.next());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
+                }
+            }
 
             if (playerCount > 4) {
                 System.out.println("That is too many players. Please limit yourself to playing with 2-4 players.");
