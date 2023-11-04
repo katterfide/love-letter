@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Scanner;
 
 public class GameState {
@@ -10,29 +9,111 @@ public class GameState {
     static boolean[] playersProtected;
     public static boolean[] playersEliminated;
 
+    static boolean weHaveAChampion = false;
+
+    static boolean roundOngoing = true;
+
+    public static int[] playerTokens;
+
+
+    static int[] daysSinceLastDate = new int[Player.playerNames.length];
+
+
+
+    public static void newGame(){
+        weHaveAChampion = false;
+
+        while(!weHaveAChampion) {
+            GameState.initializeNewRound();
+            GameState.startRound();
+
+        }
+
+        System.out.println("The game has been won by " + Player.playerNames[currentPlayerIndex]);
+
+    }
+
+
+
+    public static void initializeNewRound(){
+
+        Deck deck = new Deck();
+        deck.fillDeck();
+        Deck.shuffleDeck();
+        //Deck.showDeck();
+
+        GameState.initializePlayersProtection(); //initialize protectionarray with everyone NOT protected
+
+        GameState.initializeEliminationArray();
+
+        Player.generatePlayerHands(deck);
+        //Player.printALLPlayerHands();
+
+    }
+
+    public static void startRound(){
+
+        //only one card to draw on initialze (even with more players)
+        // input startcommand
+
+        while (roundOngoing) {
+
+            Card.playCard();
+            //checkWin, if no cards / only player alive
+            GameState.endTurn();
+        }
+
+        if (weHaveAChampion){
+            roundOngoing = false;
+        }
+    }
+
+
+    public static void establishStartingPlayer() {
+        Scanner sc = new Scanner(System.in);
+
+        for (int i = 0; i < Player.playerNames.length; i++) {
+            System.out.println(Player.playerNames[i] + " how many days ago was your last date with the princess?");
+            daysSinceLastDate[i] = sc.nextInt();
+        }
+
+        int minDays = daysSinceLastDate[0];
+
+        for (int i = 1; i < Player.playerNames.length; i++) {
+
+            if (daysSinceLastDate[i] < minDays) {
+                minDays = daysSinceLastDate[i];
+                currentPlayerIndex = i;
+            }
+        }
+
+        System.out.println("Player " + Player.playerNames[currentPlayerIndex] + " will start, as the princess favours them.");
+        System.out.println();
+    }
+
 
 
     public static void initializePlayersProtection() {
         int numberOfPlayers = Player.playerCount;
             playersProtected = new boolean[numberOfPlayers];
+
             for (int i = 0; i < numberOfPlayers; i++) {
                 playersProtected[i] = false;
 
-        }
+            }
     }
 
 
 
     public static void setProtection(int playerIndex, boolean isProtected) {
             playersProtected[playerIndex] = isProtected;
-        //lose protection after new round
-        //deck empty Win condition
     }
 
 
     public static void initializeEliminationArray() {
         int numberOfPlayers = Player.playerCount;
         playersEliminated = new boolean[numberOfPlayers];
+
         for (int i = 0; i < numberOfPlayers; i++) {
             playersEliminated[i] = false;
         }
@@ -40,41 +121,91 @@ public class GameState {
 
 
     public static void eliminatePlayer(int Index, boolean isEliminated){
-
         playersEliminated[Index] = isEliminated;
 
     }
 
 
-    public static void endTurn(){
+    public static void endTurn() {
         int startingIndex = currentPlayerIndex;
 
-        System.out.print(currentPlayer + "'s turn ended");
+        if (Deck.cards.length == 0) {                    ///WINCONDITION
+            weHaveAWinner();
 
-        currentPlayerIndex++;
-        while (playersEliminated[currentPlayerIndex]){
+        }
+
+        System.out.println(Player.playerNames[currentPlayerIndex] + "'s turn ended");
+        System.out.println();
+
+        if (currentPlayerIndex >= Player.playerCount) {
+            currentPlayerIndex = 0;
+        } else {
             currentPlayerIndex++;
-            if (currentPlayerIndex >= Player.playerCount){
-                currentPlayerIndex = 0;
-            } else if (currentPlayerIndex == startingIndex) {
-                //WINCONDITION
+        }
+
+        while (playersEliminated[currentPlayerIndex]) {
+            currentPlayerIndex++;
+
+
+        }
+        if (currentPlayerIndex == startingIndex) {
+            weHaveAWinner();
+
+        } else {
+            currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
+            System.out.println("it is now " + currentPlayer + "'s turn.");
+
+        }
+    }
+
+
+    public static void weHaveAWinner(){
+
+        roundOngoing = false;
+        System.out.println("Player " + currentPlayer +" wins this round!");
+        System.out.println("Player " + currentPlayer +" wins this round!");
+
+        playerTokens[currentPlayerIndex]++ ;
+        checkTokenChampion();
+
+    }
+
+    private static void checkTokenChampion() {
+        weHaveAChampion = false;
+
+        for (int token : playerTokens) {
+            if (Player.playerCount == 2 && token == 7) {
+                weHaveAChampion = true;
                 break;
-            } else {
-                currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
-                System.out.println(", it is now " + currentPlayer + "'s turn.");
+            }
+
+            else if (Player.playerCount == 3 && token == 5) {
+                weHaveAChampion = true;
+                break;
+            }
+
+            else if (Player.playerCount == 4 && token == 4){
+                weHaveAChampion = true;
+                break;
+
             }
         }
     }
 
 
 
-    public static void checkWinCondition(){
 
-    }
 
-    public String[] playerTokenArray;
 
-//tokens
+
+
+
+
+    //specialCommands??
+    //invalid inputs
+
+
+
 
 }
 

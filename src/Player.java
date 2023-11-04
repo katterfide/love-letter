@@ -46,8 +46,9 @@ public class Player {
         if (numberOfPlayers == 2) {
 
             System.out.println("You are playing the 2 player variant.");
-            System.out.println("3 cards have been removed from the top of the deck.");
-            System.out.println("These are the 3 cards that will not be in your game.");
+            System.out.println("3 cards will be removed from the top of the deck.");
+            System.out.println("The following 3 cards will not be in your game:");
+
 
             Card topCard1 = Deck.drawCard();
             System.out.println(topCard1.getType().toString());
@@ -57,6 +58,8 @@ public class Player {
 
             Card topCard3 = Deck.drawCard();
             System.out.println(topCard3.getType().toString());
+
+            System.out.println();
 
         }
 
@@ -88,6 +91,9 @@ public class Player {
 
     }
 
+
+
+    //print Card instead of cardS if just one
     public static void displayPlayerHand(String playerName) {
         if (playerHands.containsKey(playerName)) {
             System.out.println("Cards in " + playerName + "'s hand:");
@@ -151,13 +157,13 @@ public class Player {
         //get current player, check for cards
 
         System.out.println("Choose a card with the corresponding number:");
-        System.out.println("1 - GUARD");
-        System.out.println("2 - PRIEST");
-        System.out.println("3 - BARON");
-        System.out.println("4 - HANDMAID");
-        System.out.println("5 - PRINCE");
-        System.out.println("6 - KING");
-        System.out.println("7 - COUNTESS");
+        System.out.println("[1] - GUARD");
+        System.out.println("[2] - PRIEST");
+        System.out.println("[3] - BARON");
+        System.out.println("[4] - HANDMAID");
+        System.out.println("[5] - PRINCE");
+        System.out.println("[6] - KING");
+        System.out.println("[7] - COUNTESS");
         System.out.println("=Cannot discard Princess=");
 
 
@@ -194,12 +200,17 @@ public class Player {
                 break;
 
             default:
-                System.out.println("Invalid choice.");
+                System.out.println("Invalid choice, guess again.");
         }
 
         if (selectedCard != null) {
 
             System.out.println("You selected: " + selectedCard);
+
+
+
+        } else if (selectedCard == null){
+
 
         }
 
@@ -221,7 +232,6 @@ public class Player {
 
         int guess = sc.nextInt();
 
-        // Map the number input to the corresponding CardType (adjust according to your enumeration)
         switch (guess) {
             case 1:
                 return Card.CardType.GUARD;
@@ -241,7 +251,8 @@ public class Player {
                 return Card.CardType.PRINCESS;
             default:
                 System.out.println("Invalid guess. Guess again.");
-                return null; // Or handle the invalid guess in your specific way
+                return null;
+               // selectedCard = Player.selectCard();
         }
     }
 

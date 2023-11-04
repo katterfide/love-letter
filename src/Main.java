@@ -12,16 +12,27 @@ public class Main {
 
         System.out.println("Welcome to Love Letter!");
 
-        Deck deck = new Deck();
-        deck.fillDeck();
-        Deck.shuffleDeck();
-
-        System.out.println("\nShuffled deck:");
-
-        deck.showDeck();
-
         Player.inputPlayerCount();
         Player.inputPlayerNames();
+        GameState.establishStartingPlayer();
+
+        //these have to be outside because otherwise playerName = null and error and explosion
+
+
+        GameState.newGame();
+
+        //we have a champion
+
+
+        //starting player by token/previousRound
+
+
+        // winner by tokens
+
+        // displayscore
+        //special commands implementation
+
+
         //Shuffle these 16 cards to form a face-down draw deck. Remove the top card of the deck from the game without
         //looking at it and place it aside.
 
@@ -30,29 +41,7 @@ public class Main {
 
         //tokens?!
 
-
-        GameState.initializePlayersProtection(); //initialize protectionarray with everyone NOT protected
-
-        GameState.initializeEliminationArray();
-
-
-
-
-        Player.generatePlayerHands(deck);
-
-        Player.printALLPlayerHands();
-
-
-        deck.showDeck();
-
-        Card.playCard();
-        GameState.endTurn();
-        Player.printALLPlayerHands();
-        //only one card to draw on initialize ( depending on playercount)
-        //draw on start of round
-        //check for card
-
-
+        //cards when only 2 players and one protected?!
 
         System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
 
@@ -113,9 +102,16 @@ public class Main {
                     System.out.println("For a list of available commands type: " + "\"" + "\\" + "help" + "\"");
                     break;
             }
-
-
         }
 
-        }
+
+
+
     }
+}
+
+
+
+
+
+

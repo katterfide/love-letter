@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Deck {
     public int cardsInDeck;
-    private static Card[] cards;
+    static Card[] cards;
 
     public Deck() {
         cards = new Card[16];
@@ -25,7 +25,7 @@ public class Deck {
         addCardsDeck(Card.CardType.PRINCESS, 1);
     }
 
-    // Helper method to add cards of a specific type to the deck
+    // method to add cards of type to deck
     private void addCardsDeck(Card.CardType type, int count) {
         for (int i = 0; i < count; i++) {
             if (cardsInDeck < cards.length) {
@@ -63,7 +63,7 @@ public class Deck {
 
 
     //just a errorhunting method
-    public void showDeck() {
+    public static void showDeck() {
         for (int i = 0; i < cards.length; i++) {
             if (cards[i] != null) {
                 System.out.println(cards[i].getType());

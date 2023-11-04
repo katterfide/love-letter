@@ -51,18 +51,32 @@ public class Card {
 
         //if royals in hand, handmaid is picked and played automatically
         if (Player.hasRoyalsInHand()) {
-            System.out.println(GameState.currentPlayer + " plays Countess.");
+            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Countess.");
             Player.selectedCard = CardType.COUNTESS;
         }
 
         else {
-            System.out.println("Pick a card to play");
+            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " it is your turn!");
+            System.out.println("Your hand looks like this: ");
+            Player.displayPlayerHand(Player.playerNames[GameState.currentPlayerIndex]);
+            System.out.println();
+
+            System.out.println("Please pick a card to play.");
+
+
             CardType selectedCard = Player.selectCard();//reinit because had issue selectedCard staying null
+
+            if (Player.selectCard() == null){
+                selectedCard = Player.selectCard();
+            }
 
             ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
 
             while(!currentPlayerHand.contains(selectedCard.toString())){
                 System.out.println(selectedCard + " is not in your hand.");
+                Player.displayPlayerHand(Player.playerNames[GameState.currentPlayerIndex]);
+                System.out.println();
+
                 System.out.println("Please choose again.");
                 selectedCard = Player.selectCard();
             }
@@ -117,7 +131,7 @@ public class Card {
         //do i have those cards
         //currentplayerindex
         //guess cant exceed current players
-        System.out.println(GameState.currentPlayer + " plays Guard and guesses Player " + Player.playerNames[targetPlayer] + "'s hand card as " + guess + ".");
+        System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Guard and guesses Player " + Player.playerNames[targetPlayer] + "'s hand card as " + guess + ".");
 
         if (targetCards != null) {
 
