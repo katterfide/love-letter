@@ -7,6 +7,7 @@ public class GameState {
 
     static String currentPlayer = Player.playerNames[currentPlayerIndex];
 
+
     static boolean[] playersProtected;
     public static boolean[] playersEliminated;
 
@@ -63,9 +64,8 @@ public class GameState {
 
         while (roundOngoing) {
 
+            inputCommand();
 
-            Card.playCard();
-            //checkWin, if no cards / only player alive
             GameState.endTurn();
         }
 
@@ -74,12 +74,40 @@ public class GameState {
         }
     }
 
+    public static void inputCommand() {
+        Scanner sc = new Scanner(System.in);
+        String input;
+
+        do {
+            input = sc.nextLine();
+
+            switch (input) {
+                case "\\playCard":
+                    Card.playCard();
+                    break;
+
+                case "\\showHand":
+                    Player.displayPlayerHand(Player.playerNames[currentPlayerIndex]);
+                    break;
+
+                case "\\showScore":
+                    for (int j = 0; j < Player.playerCount; j++) {
+                        System.out.print("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
+                    }
+                    break;
+
+                default:
+                    System.out.println("Unknown command");
+            }
+        } while (!input.equals("\\playCard"));
+    }
+
     public static void establishStartingPlayer() {
         Scanner sc = new Scanner(System.in);
 
         for (int i = 0; i < Player.playerNames.length; i++) {
             System.out.println(Player.playerNames[i] + " how many days ago was your last date with the princess?");
-            daysSinceLastDate[i] = sc.nextInt();
+            daysSinceLastDate[i] = GameState.nextInt(sc);
         }
 
         int minDays = daysSinceLastDate[0];
@@ -124,53 +152,74 @@ public class GameState {
 
     }
 
+    private static void checkSurvivors() {
+        int remainingPlayers = 0;
+        int survivorIndex = 0;
+
+        for (int i = 0; i < Player.playerCount; i++) {
+            if (!playersEliminated[i]) {
+                remainingPlayers++;
+                survivorIndex = i;
+            }
+        }
+
+        if (remainingPlayers == 1) {
+            currentPlayerIndex = survivorIndex;
+            currentPlayer = Player.playerNames[currentPlayerIndex];
+            System.out.println(currentPlayer + " is the only non-eliminated player left and wins the round!");
+            weHaveAWinner();
+        }
+    }
+
     public static void endTurn() throws InterruptedException {
 
+        checkSurvivors();
         int startingIndex = currentPlayerIndex;
 
-        if (Deck.cards.length == 0) {                    ///WINCONDITION
-            weHaveAWinner();
+        if (roundOngoing) {
 
-        }
+            if (Deck.cards.length == 0) {                    ///WINCONDITION
+                weHaveAWinner();
 
-        System.out.println(Player.playerNames[currentPlayerIndex] + "'s turn ended");
-        System.out.println();
-
-
-
-        if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
-
-            currentPlayerIndex = 0;
-
-            while (playersEliminated[currentPlayerIndex]) { //if we land on an already eliminated player, we pick the next one
-                currentPlayerIndex++;
             }
 
-            resetWaitAndResetScreen();
+            System.out.println(Player.playerNames[currentPlayerIndex] + "'s turn ended");
+            System.out.println();
 
-        }
-        else {
-            currentPlayerIndex++;
+
+            if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
+
+                currentPlayerIndex = 0;
+
+                while (playersEliminated[currentPlayerIndex]) { //if we land on an already eliminated player, we pick the next one
+                    currentPlayerIndex++;
+                }
+
+                resetWaitAndResetScreen();
+
+            } else {
+                currentPlayerIndex++;
+
+                while (playersEliminated[currentPlayerIndex]) {
+                    currentPlayerIndex++;
+                    if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
+                        currentPlayerIndex = 0;
+                    }
+                }
+
+                resetWaitAndResetScreen();
+            }
 
             while (playersEliminated[currentPlayerIndex]) {
                 currentPlayerIndex++;
-                if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
-                    currentPlayerIndex = 0;
-                }
+
+                resetWaitAndResetScreen();
             }
 
-            resetWaitAndResetScreen();
-        }
+            if (currentPlayerIndex == startingIndex) {
+                weHaveAWinner();
 
-        while (playersEliminated[currentPlayerIndex]) {
-            currentPlayerIndex++;
-
-            resetWaitAndResetScreen();
-        }
-
-        if (currentPlayerIndex == startingIndex) {
-            weHaveAWinner();
-
+            }
         }
 
         currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
@@ -188,7 +237,12 @@ public class GameState {
         checkTokenChampion();
 
         System.out.println("Player " + currentPlayer + " gains 1 token.");
-        System.out.println(Arrays.toString(playerTokens));
+
+        for (int j = 0 ; j < Player.playerCount ; j++){
+            System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
+
+        }
+
 
         roundOngoing = false;
 
@@ -253,27 +307,21 @@ public class GameState {
         }
 
     }
-    private static void checkSurvivors() {
-        int remainingPlayers = 0;
-        int survivorIndex = 0;
 
-        for (int i = 0; i < Player.playerCount; i++) {
-            if (!playersEliminated[i]) {
-                remainingPlayers++;
-                survivorIndex = i;
+
+
+    public static int nextInt(Scanner scanner) {
+        int value;
+        while (true) {
+            try {
+                value = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
             }
         }
-
-        if (remainingPlayers == 1) {
-            currentPlayerIndex = survivorIndex;
-            currentPlayer = Player.playerNames[currentPlayerIndex];
-            System.out.println(currentPlayer + " is the only non-eliminated player left and wins the round!");
-            weHaveAWinner();
-        }
+        return value;
     }
-
-
-
 
 
 

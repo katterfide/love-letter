@@ -127,7 +127,7 @@ public class Player {
                 System.out.println("Press [" + (i + 1) + "] to select player \"" + playerNames[i] + "\"");
 
             }
-            targetPlayer = sc.nextInt() - 1;
+            targetPlayer = GameState.nextInt(sc) - 1;
 
             if (targetPlayer < 0 || targetPlayer >= playerCount) {
 
@@ -152,7 +152,7 @@ public class Player {
 
     public static Card.CardType selectCard(){
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
         //get current player, check for cards
 
@@ -179,7 +179,7 @@ public class Player {
             System.out.println("[7] - COUNTESS");
             System.out.println("=Cannot discard Princess=");
 
-            int choice = scanner.nextInt();
+            int choice = GameState.nextInt(sc);
 
 
             switch (choice) {
@@ -267,7 +267,7 @@ public class Player {
         System.out.println("[7] to guess Countess");
         System.out.println("[8] to guess Princess");
 
-        int guess = sc.nextInt();
+        int guess = GameState.nextInt(sc);
 
         switch (guess) {
             case 1:
