@@ -125,6 +125,7 @@ public class GameState {
     }
 
     public static void endTurn() throws InterruptedException {
+
         int startingIndex = currentPlayerIndex;
 
         if (Deck.cards.length == 0) {                    ///WINCONDITION
@@ -214,6 +215,7 @@ public class GameState {
             }
         }
     }
+
     private static void startCommands() throws InterruptedException {
 
     Scanner sc = new Scanner(System.in);
@@ -240,16 +242,35 @@ public class GameState {
 
     private static void resetWaitAndResetScreen() throws InterruptedException {
 
+        if (roundOngoing) {
+            System.out.println("Please pass the laptop along now.");
+            Thread.sleep(5000);
 
-        System.out.println("Please pass the laptop along now.");
-        Thread.sleep(5000);
 
-        for (int i = 0; i < 50; i++){
-            System.out.println();
+            for (int i = 0; i < 50; i++) {
+                System.out.println();
+            }
         }
 
     }
+    private static void checkSurvivors() {
+        int remainingPlayers = 0;
+        int survivorIndex = 0;
 
+        for (int i = 0; i < Player.playerCount; i++) {
+            if (!playersEliminated[i]) {
+                remainingPlayers++;
+                survivorIndex = i;
+            }
+        }
+
+        if (remainingPlayers == 1) {
+            currentPlayerIndex = survivorIndex;
+            currentPlayer = Player.playerNames[currentPlayerIndex];
+            System.out.println(currentPlayer + " is the only non-eliminated player left and wins the round!");
+            weHaveAWinner();
+        }
+    }
 
 
 

@@ -17,7 +17,7 @@ public class Main {
         GameState.establishStartingPlayer();
 
         //these have to be outside because otherwise playerName = null and error and explosion
-//which cards could eliminate with princess??
+        //which cards could eliminate with princess??
 
         //Baron work?
 
@@ -31,6 +31,8 @@ public class Main {
 
 
         //starting player by token/previousRound
+
+        //fix king switches with self
 
 
         // winner by tokens

@@ -165,6 +165,7 @@ public class Card {
     private static void baronAction(CardType selectedCard) {
 
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
+
         int targetPlayer = Player.chooseTargetPlayer();
         int currentPlayerIndex = GameState.currentPlayerIndex;
 
@@ -180,11 +181,11 @@ public class Card {
             System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " has " + currentPlayerCard);
             System.out.println(Player.playerNames[targetPlayer] + " has " + targetPlayerCards);
 
-            if (currentPlayerValue > targetPlayerValue) {
+            if (currentPlayerValue < targetPlayerValue) {
                 System.out.println(Player.playerNames[targetPlayer] + " is eliminated.");
                 GameState.eliminatePlayer(targetPlayer, true);
 
-            } else if (currentPlayerValue < targetPlayerValue) {
+            } else if (currentPlayerValue > targetPlayerValue) {
                 System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " is eliminated.");
                 GameState.eliminatePlayer(currentPlayerIndex, true);
 
@@ -258,21 +259,26 @@ public class Card {
 
         int targetPlayer = Player.chooseTargetPlayer();
 
+        if (targetPlayer != GameState.currentPlayerIndex) {
 
-        System.out.println(GameState.currentPlayer + " plays King and exchanges hands with " + Player.playerNames[targetPlayer]);
+            System.out.println(GameState.currentPlayer + " plays King and exchanges hands with " + Player.playerNames[targetPlayer]);
 
-        ArrayList<String> temp = Player.getPlayerHand(GameState.currentPlayerIndex);
-        ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
-        ArrayList<String> targetPlayerHand = Player.getPlayerHand(targetPlayer);
+            ArrayList<String> temp = Player.getPlayerHand(GameState.currentPlayerIndex);
+            ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
+            ArrayList<String> targetPlayerHand = Player.getPlayerHand(targetPlayer);
 
-        currentPlayerHand.clear();
-        currentPlayerHand.addAll(targetPlayerHand);
-        targetPlayerHand.clear();
-        targetPlayerHand.addAll(temp);
+            currentPlayerHand.clear();
+            currentPlayerHand.addAll(targetPlayerHand);
+            targetPlayerHand.clear();
+            targetPlayerHand.addAll(temp);
 
-        System.out.println(GameState.currentPlayer + " plays Guard and guesses " + Player.playerNames[targetPlayer] + "'s hand card.");
+            System.out.println(GameState.currentPlayer + " plays Guard and guesses " + Player.playerNames[targetPlayer] + "'s hand card.");
 
-        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
+            Player.discardCard(selectedCard, GameState.currentPlayerIndex);
+        }
+        else if (GameState.currentPlayerIndex == targetPlayer) {
+            System.out.println("Discarding card without applying effect.");
+        }
     }
 
     private static void countessAction(CardType selectedCard){
