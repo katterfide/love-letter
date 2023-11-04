@@ -7,7 +7,6 @@ public class GameState {
 
     static String currentPlayer = Player.playerNames[currentPlayerIndex];
 
-
     static boolean[] playersProtected;
     public static boolean[] playersEliminated;
 
@@ -78,16 +77,21 @@ public class GameState {
         Scanner sc = new Scanner(System.in);
         String input;
 
-        do {
+
+        label:
+        while(true){
+            System.out.println("Waiting for input:");
+            System.out.println("type " + "\\" + "help to display a list of available commands.");
             input = sc.nextLine();
 
             switch (input) {
                 case "\\playCard":
                     Card.playCard();
-                    break;
+                    break label;
 
                 case "\\showHand":
                     Player.displayPlayerHand(Player.playerNames[currentPlayerIndex]);
+                    System.out.println();
                     break;
 
                 case "\\showScore":
@@ -96,10 +100,20 @@ public class GameState {
                     }
                     break;
 
+                case "\\" + "help":
+                    System.out.println("type " + "\\" + "help to display a list of available commands.");
+                    System.out.println("type " + "\\" + "playCard to play a card from your Hand");
+                    System.out.println("type " + "\\" + "showHand to show your current cards");
+                    System.out.println("type " + "\\" + "showScore to show the scoreboard");
+                    break;
+
+
                 default:
-                    System.out.println("Unknown command");
+                    System.out.println("Command not recognized.");
+                    System.out.println("For a list of available commands type: " + "\"" + "\\" + "help" + "\"");
+                    break;
             }
-        } while (!input.equals("\\playCard"));
+        }
     }
 
     public static void establishStartingPlayer() {
@@ -224,6 +238,8 @@ public class GameState {
 
         currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
 
+
+
     }
 
     public static void weHaveAWinner(){
@@ -291,8 +307,11 @@ public class GameState {
 
     System.out.println("We're all set!");
     Thread.sleep(1000);
+    System.out.println();
 
-}
+
+
+    }
 
     private static void resetWaitAndResetScreen() throws InterruptedException {
 
@@ -307,8 +326,6 @@ public class GameState {
         }
 
     }
-
-
 
     public static int nextInt(Scanner sc) {
 
