@@ -104,6 +104,7 @@ public class Card {
 
     //princess also needs to be implemented
     private static void guardAction(CardType selectedCard) {
+
         int targetPlayer = Player.chooseTargetPlayer();
 
         System.out.println("Which card do you think player " + "\"" + Player.playerNames[targetPlayer] + "\"" + " has?");

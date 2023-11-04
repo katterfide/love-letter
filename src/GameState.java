@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class GameState {
@@ -13,12 +14,13 @@ public class GameState {
 
     static boolean roundOngoing = true;
 
-    public static int[] playerTokens;
+    public static int[] playerTokens = new int[Player.playerCount];
 
     static int[] daysSinceLastDate = new int[Player.playerNames.length];
 
     public static void newGame() throws InterruptedException {
         weHaveAChampion = false;
+
         initializePlayerTokens();
 
         while(!weHaveAChampion) {
@@ -31,8 +33,8 @@ public class GameState {
 
     }
 
-    public static void initializePlayerTokens(){
-        for (int i = 0; i > Player.playerCount; i++) {
+    public static void initializePlayerTokens() {
+        for (int i = 0; i < Player.playerCount; i++) {
             playerTokens[i] = 0;
         }
     }
@@ -133,21 +135,35 @@ public class GameState {
         System.out.println(Player.playerNames[currentPlayerIndex] + "'s turn ended");
         System.out.println();
 
-        if (currentPlayerIndex >= Player.playerCount) {
+
+
+        if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
+
             currentPlayerIndex = 0;
+
+            while (playersEliminated[currentPlayerIndex]) { //if we land on an already eliminated player, we pick the next one
+                currentPlayerIndex++;
+            }
 
             resetWaitAndResetScreen();
 
-        } else {
+        }
+        else {
             currentPlayerIndex++;
+
+            while (playersEliminated[currentPlayerIndex]) {
+                currentPlayerIndex++;
+                if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
+                    currentPlayerIndex = 0;
+                }
+            }
+
             resetWaitAndResetScreen();
         }
 
         while (playersEliminated[currentPlayerIndex]) {
             currentPlayerIndex++;
-            if (currentPlayerIndex >= Player.playerCount) {
-                currentPlayerIndex = 0;
-            }
+
             resetWaitAndResetScreen();
         }
 
@@ -157,18 +173,23 @@ public class GameState {
         }
 
         currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
-        System.out.println("it is now " + currentPlayer + "'s turn.");
 
     }
 
     public static void weHaveAWinner(){
 
-        roundOngoing = false;
-        System.out.println("Player " + currentPlayer +" wins this round!");
-        System.out.println("Player " + currentPlayer +" wins this round!");
 
-        playerTokens[currentPlayerIndex]++ ;
+        System.out.print("Player " + currentPlayer +" wins this round!");
+
+        int i = playerTokens[currentPlayerIndex] + 1;
+        playerTokens[currentPlayerIndex] = i;
+
         checkTokenChampion();
+
+        System.out.println("Player " + currentPlayer + " gains 1 token.");
+        System.out.println(Arrays.toString(playerTokens));
+
+        roundOngoing = false;
 
     }
 
@@ -218,6 +239,7 @@ public class GameState {
 }
 
     private static void resetWaitAndResetScreen() throws InterruptedException {
+
 
         System.out.println("Please pass the laptop along now.");
         Thread.sleep(5000);

@@ -32,6 +32,9 @@ public class Main {
         // displayscore
         //special commands implementation
 
+        //select self with cards / no effect /
+        //handmaid protection on enemy what select then
+
 
         //Shuffle these 16 cards to form a face-down draw deck. Remove the top card of the deck from the game without
         //looking at it and place it aside.
