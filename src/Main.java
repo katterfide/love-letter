@@ -43,31 +43,6 @@ public class Main {
 
         //cards when only 2 players and one protected?!
 
-        System.out.println("type " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands:");
-
-
-        while (true) {
-            choice = sc.next();
-
-            if (choice.equals("\\" + "start")) {
-                break;
-            } else if (choice.equals("\\" + "help")) {
-                System.out.println("Your only available commands right now are " + "\\" + "start to begin the game, or " + "\\" + "help for a list of available commands.");
-            } else {
-                System.out.println("Command not recognized.");
-                System.out.println("For a list of available commands type: " + "\"" + "\\" + "help" + "\"");
-            }
-        }
-
-
-        System.out.println("We're all set!");
-        Thread.sleep(1000);
-        System.out.println("Get ready to start playing in 3...");
-        System.out.println("Get ready to start playing in 2...");
-        System.out.println("Get ready to start playing in 1...");
-        System.out.println("Let's go!");
-
-        System.out.println("For a list of available commands type: " + "\\" + "help");
 
         label:
         while (true) {

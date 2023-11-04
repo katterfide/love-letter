@@ -156,62 +156,99 @@ public class Player {
 
         //get current player, check for cards
 
-        System.out.println("Choose a card with the corresponding number:");
-        System.out.println("[1] - GUARD");
-        System.out.println("[2] - PRIEST");
-        System.out.println("[3] - BARON");
-        System.out.println("[4] - HANDMAID");
-        System.out.println("[5] - PRINCE");
-        System.out.println("[6] - KING");
-        System.out.println("[7] - COUNTESS");
-        System.out.println("=Cannot discard Princess=");
 
 
-        int choice = scanner.nextInt();
+
         Card.CardType selectedCard = null;
-        switch (choice) {
+        ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
 
-            case 1:
-                selectedCard = Card.CardType.GUARD;
-                break;
+        while (selectedCard == null) {
 
-            case 2:
-                selectedCard = Card.CardType.PRIEST;
-                break;
+            Player.displayPlayerHand(Player.playerNames[GameState.currentPlayerIndex]);
+            System.out.println();
+            System.out.println("Please pick a card to play.");
 
-            case 3:
-                selectedCard = Card.CardType.BARON;
-                break;
 
-            case 4:
-                selectedCard = Card.CardType.HANDMAID;
-                break;
+            System.out.println("Choose a card with the corresponding number:");
+            System.out.println("[1] - GUARD");
+            System.out.println("[2] - PRIEST");
+            System.out.println("[3] - BARON");
+            System.out.println("[4] - HANDMAID");
+            System.out.println("[5] - PRINCE");
+            System.out.println("[6] - KING");
+            System.out.println("[7] - COUNTESS");
+            System.out.println("=Cannot discard Princess=");
 
-            case 5:
-                selectedCard = Card.CardType.PRINCE;
-                break;
+            int choice = scanner.nextInt();
 
-            case 6:
-                selectedCard = Card.CardType.KING;
-                break;
 
-            case 7:
-                selectedCard = Card.CardType.COUNTESS;
-                break;
+            switch (choice) {
 
-            default:
-                System.out.println("Invalid choice, guess again.");
+                case 1:
+                    if (currentPlayerHand.contains("GUARD")) {
+                        selectedCard = Card.CardType.GUARD;
+                    } else {
+                        System.out.println("You don't have the Guard card. Choose again.");
+                        System.out.println();
+                    }
+                    break;
+
+                case 2:
+                    if (currentPlayerHand.contains("PRIEST")) {
+                        selectedCard = Card.CardType.PRIEST;
+                    } else {
+                        System.out.println("You don't have the Priest card. Choose again.");
+                    }
+                    break;
+
+                case 3:
+                    if (currentPlayerHand.contains("BARON")) {
+                        selectedCard = Card.CardType.BARON;
+                    } else {
+                        System.out.println("You don't have the Baron card. Choose again.");
+                    }
+                    break;
+
+                case 4:
+                    if (currentPlayerHand.contains("HANDMAID")) {
+                        selectedCard = Card.CardType.HANDMAID;
+                    } else {
+                        System.out.println("You don't have the HANDMAID card. Choose again.");
+                    }
+                    break;
+
+                case 5:
+                    if (currentPlayerHand.contains("PRINCE")) {
+                        selectedCard = Card.CardType.PRINCE;
+                    } else {
+                        System.out.println("You don't have the Prince card. Choose again.");
+                    }
+                    break;
+                case 6:
+                    if (currentPlayerHand.contains("KING")) {
+                        selectedCard = Card.CardType.KING;
+                    } else {
+                        System.out.println("You don't have the KING card. Choose again.");
+                    }
+                    break;
+
+                case 7:
+                    if (currentPlayerHand.contains("COUNTESS")) {
+                        selectedCard = Card.CardType.COUNTESS;
+                    } else {
+                        System.out.println("You don't have the Countess card. Choose again.");
+                    }
+                    break;
+
+                default:
+                    System.out.println("Invalid choice, please enter a number between 1 and 7.");
+                    break;
+            }
         }
 
         if (selectedCard != null) {
 
             System.out.println("You selected: " + selectedCard);
-
-
-
-        } else if (selectedCard == null){
-
-
         }
 
         return selectedCard;

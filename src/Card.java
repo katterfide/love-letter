@@ -57,29 +57,11 @@ public class Card {
 
         else {
             System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " it is your turn!");
-            System.out.println("Your hand looks like this: ");
-            Player.displayPlayerHand(Player.playerNames[GameState.currentPlayerIndex]);
             System.out.println();
 
-            System.out.println("Please pick a card to play.");
 
+            CardType selectedCard = Player.selectCard(); //reinit because had issue selectedCard staying null
 
-            CardType selectedCard = Player.selectCard();//reinit because had issue selectedCard staying null
-
-            if (Player.selectCard() == null){
-                selectedCard = Player.selectCard();
-            }
-
-            ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
-
-            while(!currentPlayerHand.contains(selectedCard.toString())){
-                System.out.println(selectedCard + " is not in your hand.");
-                Player.displayPlayerHand(Player.playerNames[GameState.currentPlayerIndex]);
-                System.out.println();
-
-                System.out.println("Please choose again.");
-                selectedCard = Player.selectCard();
-            }
 
             switch (selectedCard) {
 

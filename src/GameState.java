@@ -15,13 +15,11 @@ public class GameState {
 
     public static int[] playerTokens;
 
-
     static int[] daysSinceLastDate = new int[Player.playerNames.length];
 
-
-
-    public static void newGame(){
+    public static void newGame() throws InterruptedException {
         weHaveAChampion = false;
+        initializePlayerTokens();
 
         while(!weHaveAChampion) {
             GameState.initializeNewRound();
@@ -33,7 +31,11 @@ public class GameState {
 
     }
 
-
+    public static void initializePlayerTokens(){
+        for (int i = 0; i > Player.playerCount; i++) {
+            playerTokens[i] = 0;
+        }
+    }
 
     public static void initializeNewRound(){
 
@@ -51,12 +53,14 @@ public class GameState {
 
     }
 
-    public static void startRound(){
+    public static void startRound() throws InterruptedException {
 
         //only one card to draw on initialze (even with more players)
         // input startcommand
+        startCommands();
 
         while (roundOngoing) {
+
 
             Card.playCard();
             //checkWin, if no cards / only player alive
@@ -67,7 +71,6 @@ public class GameState {
             roundOngoing = false;
         }
     }
-
 
     public static void establishStartingPlayer() {
         Scanner sc = new Scanner(System.in);
@@ -91,8 +94,6 @@ public class GameState {
         System.out.println();
     }
 
-
-
     public static void initializePlayersProtection() {
         int numberOfPlayers = Player.playerCount;
             playersProtected = new boolean[numberOfPlayers];
@@ -103,12 +104,9 @@ public class GameState {
             }
     }
 
-
-
     public static void setProtection(int playerIndex, boolean isProtected) {
             playersProtected[playerIndex] = isProtected;
     }
-
 
     public static void initializeEliminationArray() {
         int numberOfPlayers = Player.playerCount;
@@ -119,14 +117,12 @@ public class GameState {
         }
     }
 
-
     public static void eliminatePlayer(int Index, boolean isEliminated){
         playersEliminated[Index] = isEliminated;
 
     }
 
-
-    public static void endTurn() {
+    public static void endTurn() throws InterruptedException {
         int startingIndex = currentPlayerIndex;
 
         if (Deck.cards.length == 0) {                    ///WINCONDITION
@@ -139,25 +135,31 @@ public class GameState {
 
         if (currentPlayerIndex >= Player.playerCount) {
             currentPlayerIndex = 0;
+
+            resetWaitAndResetScreen();
+
         } else {
             currentPlayerIndex++;
+            resetWaitAndResetScreen();
         }
 
         while (playersEliminated[currentPlayerIndex]) {
             currentPlayerIndex++;
-
-
+            if (currentPlayerIndex >= Player.playerCount) {
+                currentPlayerIndex = 0;
+            }
+            resetWaitAndResetScreen();
         }
+
         if (currentPlayerIndex == startingIndex) {
             weHaveAWinner();
 
-        } else {
-            currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
-            System.out.println("it is now " + currentPlayer + "'s turn.");
-
         }
-    }
 
+        currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
+        System.out.println("it is now " + currentPlayer + "'s turn.");
+
+    }
 
     public static void weHaveAWinner(){
 
@@ -191,6 +193,41 @@ public class GameState {
             }
         }
     }
+    private static void startCommands() throws InterruptedException {
+
+    Scanner sc = new Scanner(System.in);
+    String choice;
+
+    System.out.println("type " + "\\" + "start to begin the game:");
+
+
+    while (true) {
+        choice = sc.next();
+
+        if (choice.equals("\\" + "start")) {
+            break;
+        } else {
+            System.out.println("Command not recognized.");
+        }
+    }
+
+
+    System.out.println("We're all set!");
+    Thread.sleep(1000);
+
+}
+
+    private static void resetWaitAndResetScreen() throws InterruptedException {
+
+        System.out.println("Please pass the laptop along now.");
+        Thread.sleep(5000);
+
+        for (int i = 0; i < 50; i++){
+            System.out.println();
+        }
+
+    }
+
 
 
 
