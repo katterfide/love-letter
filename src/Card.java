@@ -175,6 +175,10 @@ public class Card {
             ArrayList<String> currentPlayerCard = Player.getPlayerHand(currentPlayerIndex);
 
             int currentPlayerValue = cardValue(currentPlayerCard.get(0));
+            if (currentPlayerValue == 0){
+                currentPlayerValue = cardValue(currentPlayerCard.get(1));
+            }
+
             int targetPlayerValue = cardValue(targetPlayerCards.get(0));
 
             System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Baron.");

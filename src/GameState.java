@@ -56,7 +56,7 @@ public class GameState {
     }
 
     public static void startRound() throws InterruptedException {
-
+        roundOngoing = true;
         //only one card to draw on initialze (even with more players)
         // input startcommand
         startCommands();
@@ -80,12 +80,16 @@ public class GameState {
 
         label:
         while(true){
-            System.out.println("Waiting for input:");
+            System.out.println("type " + "\\" + "playCard or 1 to have your cards displayed and proceed to play your hand.");
             System.out.println("type " + "\\" + "help to display a list of available commands.");
+            System.out.println();
+
+            System.out.println("Waiting for input:");
+
             input = sc.nextLine();
 
             switch (input) {
-                case "\\playCard":
+                case "\\playCard", "1":
                     Card.playCard();
                     break label;
 
@@ -105,8 +109,30 @@ public class GameState {
                     System.out.println("type " + "\\" + "playCard to play a card from your Hand");
                     System.out.println("type " + "\\" + "showHand to show your current cards");
                     System.out.println("type " + "\\" + "showScore to show the scoreboard");
+                    System.out.println("type " + "\\" + "showPlayers to show players still in the round and eliminated ones");
                     break;
 
+
+                case "\\showPlayers":
+                    System.out.println("These players are still in the game:");
+
+                    for (int i = 0; i < Player.playerCount ; i++){
+
+                        if (!playersEliminated[i]){
+                            System.out.println(playersEliminated[i]);
+                        }
+
+                    }
+
+                    System.out.println("These players have been eliminated:");
+                    for (int i = 0; i < Player.playerCount ; i++){
+                        if (playersEliminated[i]){
+                            System.out.println(playersEliminated[i]);
+                        }
+
+                    }
+
+                    break;
 
                 default:
                     System.out.println("Command not recognized.");
@@ -245,7 +271,7 @@ public class GameState {
     public static void weHaveAWinner(){
 
 
-        System.out.print("Player " + currentPlayer +" wins this round!");
+        System.out.println("Player " + currentPlayer +" wins this round!");
 
         int i = playerTokens[currentPlayerIndex] + 1;
         playerTokens[currentPlayerIndex] = i;
@@ -340,17 +366,6 @@ public class GameState {
         }
         return value;
     } //catches stringinputs for int inputs
-
-
-
-
-
-
-
-    //specialCommands??
-    //invalid inputs
-
-
 
 
 }
