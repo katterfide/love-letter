@@ -1,4 +1,4 @@
-import java.awt.desktop.SystemSleepEvent;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameState {
@@ -8,6 +8,7 @@ public class GameState {
     static String currentPlayer = Player.playerNames[currentPlayerIndex];
 
     static boolean[] playersProtected;
+
     public static boolean[] playersEliminated;
 
     static boolean weHaveAChampion = false;
@@ -40,7 +41,7 @@ public class GameState {
 
         }
 
-        System.out.println("\uD83C\uDFC6\uD83C\uDFC6\uD83C\uDFC6The game has been won by " + Player.playerNames[currentPlayerIndex] + "\uD83C\uDFC6\uD83C\uDFC6\uD83C\uDFC6");
+        System.out.println("\uD83C\uDFC6The game has been won by " + Player.playerNames[currentPlayerIndex] + "\uD83C\uDFC6");
         for (int j = 0; j < Player.playerCount; j++) {
             System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
         }
@@ -80,7 +81,7 @@ public class GameState {
 
             inputCommand();
 
-            GameState.endTurn();
+            endTurn();
         }
 
         if (weHaveAChampion){
@@ -185,7 +186,6 @@ public class GameState {
         playerIndex = previousWinnerIndex;
 
         return playerIndex;
-
     }
 
     public static void initializePlayersProtection() {
@@ -230,70 +230,82 @@ public class GameState {
         if (remainingPlayers == 1) {
             currentPlayerIndex = survivorIndex;
             currentPlayer = Player.playerNames[currentPlayerIndex];
-            System.out.println(currentPlayer + " is the only non-eliminated player left and wins the round!");
+            System.out.println(currentPlayer + " is the only non-eliminated player left.");
             weHaveAWinner();
         }
     }
 
     public static void endTurn() throws InterruptedException {
-
+        emptyDeckWinner();
         checkSurvivors();
+
         int startingIndex = currentPlayerIndex;
 
+
         if (roundOngoing) {
-
-
             System.out.println(Player.playerNames[currentPlayerIndex] + "'s turn ended");
             System.out.println();
 
-
-            if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
-
-                currentPlayerIndex = 0;
-
-                while (playersEliminated[currentPlayerIndex]) { //if we land on an already eliminated player, we pick the next one
+            do {
+                if (currentPlayerIndex < Player.playerCount - 1) {
                     currentPlayerIndex++;
+                } else {
+                    currentPlayerIndex = 0;
                 }
 
                 resetWaitAndResetScreen();
-
-            } else {
-                currentPlayerIndex++;
-
-                while (playersEliminated[currentPlayerIndex]) {
-                    currentPlayerIndex++;
-                    if (currentPlayerIndex >= Player.playerCount - 1) { //"-1" because index starts at 0 at count doesnt
-                        currentPlayerIndex = 0;
-                    }
-                }
-
-                resetWaitAndResetScreen();
-            }
-
-            while (playersEliminated[currentPlayerIndex]) {
-                currentPlayerIndex++;
-
-                resetWaitAndResetScreen();
-            }
+            } while (playersEliminated[currentPlayerIndex]);
 
             if (currentPlayerIndex == startingIndex) {
-                System.out.println("currentplayer = starting index");
+                System.out.println("current player is the same as the starting index");
                 weHaveAWinner();
-
-
             }
         }
 
-        currentPlayer = Player.playerNames[currentPlayerIndex]; //updating currentPlayer String
+        currentPlayer = Player.playerNames[currentPlayerIndex]; // updating currentPlayer sring
+    }
+    public static void emptyDeckWinner(){
+        if (Deck.cards.length == 0) {
+            System.out.println("The deck is empty.");
+            System.out.println("Player card comparisons will commence");
+            for (int i = 0 ; i < Player.playerCount ; i++){
+                Player.displayPlayerHand(Player.playerNames[i]);
+            }
 
 
+            int maxCardValue = -1;
+            ArrayList<Integer> playersWithMaxValue = new ArrayList<>();
+
+            for (int i = 0; i < Player.playerCount; i++) {
+                int card1Value = Card.cardValue(Player.getPlayerHand(i).get(0));
+                int card2Value = Card.cardValue(Player.getPlayerHand(i).get(1));
+
+                int highestValue = Math.max(card1Value, card2Value);
+                if (highestValue > maxCardValue) {
+                    maxCardValue = highestValue;
+                    playersWithMaxValue.clear();
+                    playersWithMaxValue.add(i);
+                } else if (highestValue == maxCardValue) {
+                    playersWithMaxValue.add(i);
+                }
+            }
+
+            for (int playerIndex : playersWithMaxValue) {
+                int i = playerTokens[playerIndex] + 1;
+                playerTokens[playerIndex] = i;
+                System.out.println("Player " + playerTokens[playerIndex] + " gains 1 token.");
+
+                previousWinnerIndex = playerIndex;
+            }
+            roundOngoing = false;
+        }
 
     }
 
     public static void weHaveAWinner(){
 
 
-        System.out.println("Player " + currentPlayer +" wins this round!");
+        System.out.println("Player " + currentPlayer +" wins this round! \uD83C\uDFC6 ");
 
         int i = playerTokens[currentPlayerIndex] + 1;
         playerTokens[currentPlayerIndex] = i;
@@ -305,7 +317,14 @@ public class GameState {
         System.out.println("Player " + currentPlayer + " gains 1 token.");
 
         for (int j = 0 ; j < Player.playerCount ; j++){
-            System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
+
+            if (playerTokens[j] == 1){
+                System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
+
+            }
+            else {
+                System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
+            }
 
         }
 

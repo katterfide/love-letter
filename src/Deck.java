@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    public int cardsInDeck;
+    public static int cardsInDeck;
     static Card[] cards;
 
     public Deck() {

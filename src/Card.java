@@ -8,7 +8,7 @@ public class Card {
         GUARD, PRIEST, BARON, HANDMAID, PRINCE, KING, COUNTESS, PRINCESS
     }
 
-    private static int cardValue(String card) {
+    static int cardValue(String card) {
         switch (card) {
             case "GUARD":
                 return 1;
@@ -109,7 +109,6 @@ public class Card {
         }
     }
 
-    //princess also needs to be implemented
     private static void guardAction(CardType selectedCard) {
 
         int targetPlayer = Player.chooseTargetPlayer();
@@ -181,22 +180,15 @@ public class Card {
             ArrayList<String> targetPlayerCards = Player.getPlayerHand(targetPlayer);
             ArrayList<String> currentPlayerCard = Player.getPlayerHand(currentPlayerIndex);
 
-
-
-
             int currentPlayerValue = cardValue(currentPlayerCard.get(0));
             if (currentPlayerValue == 0){
                 currentPlayerValue = cardValue(currentPlayerCard.get(1));
             }
 
-
-
             int targetPlayerValue = cardValue(targetPlayerCards.get(0));
             if (targetPlayerValue == 0){
                 targetPlayerValue = cardValue(targetPlayerCards.get(1));
             }
-
-
 
             System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Baron.");
             System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " has " + currentPlayerCard);

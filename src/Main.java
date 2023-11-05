@@ -16,11 +16,6 @@ public class Main {
         Player.inputPlayerNames();
         GameState.establishStartingPlayer();
 
-        //which cards could eliminate with princess??
-
-        //does countess work?
-        //CPUNTESSS DPNT WORK
-        //comparing when deck empty doesnt display "comparing" also wrong way around like baron was
 
         // has 1 tokens, bad english
         //block text when winning
