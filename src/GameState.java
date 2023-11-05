@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.awt.desktop.SystemSleepEvent;
 import java.util.Scanner;
 
 public class GameState {
@@ -14,6 +14,8 @@ public class GameState {
 
     static boolean roundOngoing = true;
 
+    static int previousWinnerIndex = 0;
+
     public static int[] playerTokens = new int[Player.playerCount];
 
     static int[] daysSinceLastDate = new int[Player.playerNames.length];
@@ -22,14 +24,27 @@ public class GameState {
         weHaveAChampion = false;
 
         initializePlayerTokens();
+        int counter = 0;
 
         while(!weHaveAChampion) {
+
+            if (counter >= 1){
+                currentPlayerIndex = previousWinner();
+                System.out.println(Player.playerNames[currentPlayerIndex] + " will go first because they won the last round");
+            }
+            counter++;
+
+
             GameState.initializeNewRound();
             GameState.startRound();
 
         }
 
-        System.out.println("The game has been won by " + Player.playerNames[currentPlayerIndex]);
+        System.out.println("\uD83C\uDFC6\uD83C\uDFC6\uD83C\uDFC6The game has been won by " + Player.playerNames[currentPlayerIndex] + "\uD83C\uDFC6\uD83C\uDFC6\uD83C\uDFC6");
+        for (int j = 0; j < Player.playerCount; j++) {
+            System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
+        }
+
 
     }
 
@@ -84,7 +99,7 @@ public class GameState {
             System.out.println("type " + "\\" + "help to display a list of available commands.");
             System.out.println();
 
-            System.out.println("Waiting for input:");
+            System.out.println("Waiting for input by player #" + (currentPlayerIndex + 1) + " " + Player.playerNames[GameState.currentPlayerIndex] + ":");
 
             input = sc.nextLine();
 
@@ -100,7 +115,7 @@ public class GameState {
 
                 case "\\showScore":
                     for (int j = 0; j < Player.playerCount; j++) {
-                        System.out.print("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
+                        System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
                     }
                     break;
 
@@ -127,7 +142,7 @@ public class GameState {
                     System.out.println("These players have been eliminated:");
                     for (int i = 0; i < Player.playerCount ; i++){
                         if (playersEliminated[i]){
-                            System.out.println(playersEliminated[i]);
+                            System.out.println(Player.playerNames[i]);
                         }
 
                     }
@@ -162,6 +177,15 @@ public class GameState {
 
         System.out.println("Player " + Player.playerNames[currentPlayerIndex] + " will start, as the princess favours them.");
         System.out.println();
+    }
+
+    public static int previousWinner(){
+        int playerIndex = 0;
+
+        playerIndex = previousWinnerIndex;
+
+        return playerIndex;
+
     }
 
     public static void initializePlayersProtection() {
@@ -218,10 +242,6 @@ public class GameState {
 
         if (roundOngoing) {
 
-            if (Deck.cards.length == 0) {                    ///WINCONDITION
-                weHaveAWinner();
-
-            }
 
             System.out.println(Player.playerNames[currentPlayerIndex] + "'s turn ended");
             System.out.println();
@@ -257,7 +277,9 @@ public class GameState {
             }
 
             if (currentPlayerIndex == startingIndex) {
+                System.out.println("currentplayer = starting index");
                 weHaveAWinner();
+
 
             }
         }
@@ -275,6 +297,8 @@ public class GameState {
 
         int i = playerTokens[currentPlayerIndex] + 1;
         playerTokens[currentPlayerIndex] = i;
+
+        previousWinnerIndex = currentPlayerIndex;
 
         checkTokenChampion();
 

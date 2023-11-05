@@ -46,7 +46,6 @@ public class Player {
     public static Card.CardType selectedCard;
 
 
-
     public static void generatePlayerHands(Deck deck) {
         playerHands = new HashMap<>();
         int numberOfPlayers = Player.playerCount;
@@ -98,7 +97,6 @@ public class Player {
     }
 
 
-
     //print Card instead of cardS if just one
     public static void displayPlayerHand(String playerName) {
         if (playerHands.containsKey(playerName)) {
@@ -130,7 +128,18 @@ public class Player {
             System.out.println("Choose your target player with a number: ");
 
             for (int i = 0; i < playerCount; i++) {
-                System.out.println("Press [" + (i + 1) + "] to select player \"" + playerNames[i] + "\"");
+                System.out.print("Press [" + (i + 1) + "] to select player \"" + playerNames[i] + "\"");
+                if (GameState.playersEliminated[i]) {
+                    System.out.println("\uD83D\uDC80");
+                } else if (GameState.currentPlayerIndex == i) {
+                    System.out.println("⬅\uFE0F apply card to self or discard");
+
+                } else if (GameState.playersProtected[i]) {
+                    System.out.println("❤\uFE0F" + " protected by handmaid");
+                } else {
+                    System.out.println();
+                }
+
 
             }
             targetPlayer = GameState.nextInt(sc) - 1;
@@ -156,13 +165,11 @@ public class Player {
         return targetPlayer;
     }
 
-    public static Card.CardType selectCard(){
+    public static Card.CardType selectCard() {
 
         Scanner sc = new Scanner(System.in);
 
         //get current player, check for cards
-
-
 
 
         Card.CardType selectedCard = null;
@@ -176,14 +183,14 @@ public class Player {
 
 
             System.out.println("Choose a card with the corresponding number:");
-            System.out.println("[1] - GUARD");
-            System.out.println("[2] - PRIEST");
-            System.out.println("[3] - BARON");
-            System.out.println("[4] - HANDMAID");
-            System.out.println("[5] - PRINCE");
-            System.out.println("[6] - KING");
-            System.out.println("[7] - COUNTESS");
-            System.out.println("=Cannot discard Princess=");
+            System.out.println("[1] - GUARD    - guess another players card, guess right; they die          - discard on self selection");
+            System.out.println("[2] - PRIEST   - show other players card                                    - discard on self selection");
+            System.out.println("[3] - BARON    - compare cards, lower cardholder dies                       - discard on self selection");
+            System.out.println("[4] - HANDMAID - protect self for cycle                                     - only self selectable");
+            System.out.println("[5] - PRINCE   - discard somebodies hand, if contains princess; death       - self selectable (wont affect princess)");
+            System.out.println("[6] - KING     - switch cards with someone (princess loss not punished)     - discard on self selection");
+            System.out.println("[7] - COUNTESS - plays automatically if royals in hand (play for deception) - has no effect");
+            System.out.println("    -=Princess=- cannot play/discard princess - lose her; you die");
 
             int choice = GameState.nextInt(sc);
 
@@ -273,7 +280,10 @@ public class Player {
         System.out.println("[7] to guess Countess");
         System.out.println("[8] to guess Princess");
 
-        int guess = GameState.nextInt(sc);
+        int guess = 0;
+        while ((guess < 1) || (8 < guess)) {
+            guess = GameState.nextInt(sc);
+        }
 
         switch (guess) {
             case 1:
@@ -295,9 +305,11 @@ public class Player {
             default:
                 System.out.println("Invalid guess. Guess again.");
                 return null;
-               // selectedCard = Player.selectCard();
+            // selectedCard = Player.selectCard();
         }
     }
+
+
 
     static boolean hasRoyalsInHand() {
         ArrayList<String> hand = Player.getPlayerHand(GameState.currentPlayerIndex);

@@ -286,24 +286,24 @@ public class Card {
             System.out.println(GameState.currentPlayer + " plays King and exchanges hands with " + Player.playerNames[targetPlayer]);
             Player.discardCard(selectedCard, GameState.currentPlayerIndex);
 
-
-            ArrayList<String> temp = Player.getPlayerHand(GameState.currentPlayerIndex);
-            ArrayList<String> currentPlayerHand = Player.getPlayerHand(GameState.currentPlayerIndex);
-            ArrayList<String> targetPlayerHand = Player.getPlayerHand(targetPlayer);
+            ArrayList<String> temp = new ArrayList<>(Player.getPlayerHand(GameState.currentPlayerIndex));
+            ArrayList<String> currentPlayerHand = new ArrayList<>(Player.getPlayerHand(GameState.currentPlayerIndex));
+            ArrayList<String> targetPlayerHand = new ArrayList<>(Player.getPlayerHand(targetPlayer));
 
             currentPlayerHand.clear();
             currentPlayerHand.addAll(targetPlayerHand);
             targetPlayerHand.clear();
             targetPlayerHand.addAll(temp);
 
-            Player.playerHands.put(GameState.currentPlayer, targetPlayerHand);
-            Player.playerHands.put(Player.playerNames[targetPlayer], currentPlayerHand);
+            Player.playerHands.put(GameState.currentPlayer, currentPlayerHand);
+            Player.playerHands.put(Player.playerNames[targetPlayer], targetPlayerHand);
 
 
 
         }
         else if (GameState.currentPlayerIndex == targetPlayer) {
             System.out.println("Discarding card without applying effect.");
+            Player.discardCard(selectedCard, GameState.currentPlayerIndex);
         }
     }
 
