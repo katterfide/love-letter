@@ -4,6 +4,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Player {
+    /**
+     * testjavadoctest
+     */
+
     public static int playerCount = 0;
 
     public static String[] playerNames;
