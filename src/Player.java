@@ -305,7 +305,6 @@ public class Player {
             return true;
         }
         else {
-            System.out.println("hasRoyalsInHand determined false..");
             return false;
         }
     }
