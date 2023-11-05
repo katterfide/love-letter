@@ -127,7 +127,7 @@ public class Card {
             if (targetCards != null) {
 
                 if (targetCards.contains(guess.toString())) {
-                    System.out.println("Correct guess! Player " + Player.playerNames[targetPlayer] + " is eliminated.");
+                    System.out.println("Correct guess! Player " + Player.playerNames[targetPlayer] + " is eliminated. \uD83D\uDC80");
                     GameState.eliminatePlayer(targetPlayer, true);
 
                 } else {
@@ -146,7 +146,7 @@ public class Card {
     }
 
     private static void priestAction(CardType selectedCard) {
-        System.out.println("Which player do you want to compare hands with??");
+        System.out.println("Which players card do you want to see?");
         int targetPlayer = Player.chooseTargetPlayer();
 
         if (GameState.currentPlayerIndex != targetPlayer){
@@ -195,11 +195,11 @@ public class Card {
             System.out.println(Player.playerNames[targetPlayer] + " has " + targetPlayerCards);
 
             if (currentPlayerValue > targetPlayerValue) {
-                System.out.println(Player.playerNames[targetPlayer] + " is eliminated.");
+                System.out.println(Player.playerNames[targetPlayer] + " is eliminated. \uD83D\uDC80");
                 GameState.eliminatePlayer(targetPlayer, true);
 
             } else if (currentPlayerValue < targetPlayerValue) {
-                System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " is eliminated.");
+                System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " is eliminated. \uD83D\uDC80");
                 GameState.eliminatePlayer(currentPlayerIndex, true);
 
             } else {
@@ -229,13 +229,16 @@ public class Card {
 
             if (!targetCards.isEmpty()) {
 
-                targetCards.clear();
-                Card newCard = Deck.drawCard();
+
+
+
                 if (targetCards.contains("Princess")) {
-                    System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand which contained a princess and was eliminated.");
+                    System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand which contained a princess and was eliminated. \uD83D\uDC80");
                     GameState.eliminatePlayer(targetPlayer, true);
                 }
 
+                targetCards.clear();
+                Card newCard = Deck.drawCard();
 
                 if (newCard != null) {
 

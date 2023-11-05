@@ -41,11 +41,7 @@ public class GameState {
 
         }
 
-        System.out.println("\uD83C\uDFC6The game has been won by " + Player.playerNames[currentPlayerIndex] + "\uD83C\uDFC6");
-        for (int j = 0; j < Player.playerCount; j++) {
-            System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
-        }
-
+        System.out.println("\uD83C\uDFC6\uD83C\uDFC6\uD83C\uDFC6The game has been won by " + Player.playerNames[currentPlayerIndex] + "\uD83C\uDFC6\uD83C\uDFC6\uD83C\uDFC6");
 
     }
 
@@ -75,6 +71,7 @@ public class GameState {
         roundOngoing = true;
         //only one card to draw on initialze (even with more players)
         // input startcommand
+        checkTokenChampion();
         startCommands();
 
         while (roundOngoing) {
@@ -115,9 +112,7 @@ public class GameState {
                     break;
 
                 case "\\showScore":
-                    for (int j = 0; j < Player.playerCount; j++) {
-                        System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
-                    }
+                    showScore();
                     break;
 
                 case "\\" + "help":
@@ -143,7 +138,8 @@ public class GameState {
                     System.out.println("These players have been eliminated:");
                     for (int i = 0; i < Player.playerCount ; i++){
                         if (playersEliminated[i]){
-                            System.out.println(Player.playerNames[i]);
+                            System.out.print(Player.playerNames[i]);
+                            System.out.println("\uD83D\uDC80");
                         }
 
                     }
@@ -155,6 +151,25 @@ public class GameState {
                     System.out.println("For a list of available commands type: " + "\"" + "\\" + "help" + "\"");
                     break;
             }
+        }
+    }
+
+    public static void showScore(){
+        for (int j = 0; j < Player.playerCount; j++) {
+
+            if (playerTokens[j] == 1){
+                System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " token.");
+
+            }
+            else {
+                System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens.");
+            }
+
+            for (int i = 0 ; i < playerTokens[j] ; i++ ){
+                System.out.print("♦️");
+
+            }
+            System.out.println();
         }
     }
 
@@ -264,43 +279,58 @@ public class GameState {
 
         currentPlayer = Player.playerNames[currentPlayerIndex]; // updating currentPlayer sring
     }
-    public static void emptyDeckWinner(){
+
+    public static void emptyDeckWinner() {
         if (Deck.cards.length == 0) {
             System.out.println("The deck is empty.");
             System.out.println("Player card comparisons will commence");
-            for (int i = 0 ; i < Player.playerCount ; i++){
+            System.out.println("The highest card wins the round.");
+
+            for (int i = 0; i < Player.playerCount; i++) {
                 Player.displayPlayerHand(Player.playerNames[i]);
             }
 
-
-            int maxCardValue = -1;
+            int maxCardValue = 0;
             ArrayList<Integer> playersWithMaxValue = new ArrayList<>();
 
             for (int i = 0; i < Player.playerCount; i++) {
-                int card1Value = Card.cardValue(Player.getPlayerHand(i).get(0));
-                int card2Value = Card.cardValue(Player.getPlayerHand(i).get(1));
+                ArrayList<String> playerHand = Player.getPlayerHand(i);
 
-                int highestValue = Math.max(card1Value, card2Value);
-                if (highestValue > maxCardValue) {
-                    maxCardValue = highestValue;
-                    playersWithMaxValue.clear();
-                    playersWithMaxValue.add(i);
-                } else if (highestValue == maxCardValue) {
-                    playersWithMaxValue.add(i);
+                if (playerHand.size() >= 1) {
+                    int card1Value = Card.cardValue(playerHand.get(0));
+                    int highestValue = card1Value;
+
+                    if (playerHand.size() == 2) {
+                        int card2Value = Card.cardValue(playerHand.get(1));
+                        highestValue = Math.max(card1Value, card2Value);
+                    }
+
+                    if (highestValue > maxCardValue) {
+                        maxCardValue = highestValue;
+                        playersWithMaxValue.clear();
+                        playersWithMaxValue.add(i);
+                    } else if (highestValue == maxCardValue) {
+                        playersWithMaxValue.add(i);
+                    }
                 }
             }
 
             for (int playerIndex : playersWithMaxValue) {
                 int i = playerTokens[playerIndex] + 1;
                 playerTokens[playerIndex] = i;
-                System.out.println("Player " + playerTokens[playerIndex] + " gains 1 token.");
+
+                System.out.println("Player " + Player.playerNames[playerIndex] + " wins this round. \uD83C\uDFC6 ");
+                System.out.println("Player " + Player.playerNames[playerIndex] + " gains 1 token.");
+
+                showScore();
 
                 previousWinnerIndex = playerIndex;
+                System.out.println();
             }
             roundOngoing = false;
         }
-
     }
+
 
     public static void weHaveAWinner(){
 
@@ -316,17 +346,7 @@ public class GameState {
 
         System.out.println("Player " + currentPlayer + " gains 1 token.");
 
-        for (int j = 0 ; j < Player.playerCount ; j++){
-
-            if (playerTokens[j] == 1){
-                System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
-
-            }
-            else {
-                System.out.println("Player " + Player.playerNames[j] + " has " + playerTokens[j] + " tokens");
-            }
-
-        }
+        showScore();
 
 
         roundOngoing = false;
@@ -337,17 +357,17 @@ public class GameState {
         weHaveAChampion = false;
 
         for (int token : playerTokens) {
-            if (Player.playerCount == 2 && token == 7) {
+            if (Player.playerCount == 2 && token == 1) {
                 weHaveAChampion = true;
                 break;
             }
 
-            else if (Player.playerCount == 3 && token == 5) {
+            else if (Player.playerCount == 3 && token == 1) {
                 weHaveAChampion = true;
                 break;
             }
 
-            else if (Player.playerCount == 4 && token == 4){
+            else if (Player.playerCount == 4 && token == 1){
                 weHaveAChampion = true;
                 break;
 
@@ -360,7 +380,7 @@ public class GameState {
     Scanner sc = new Scanner(System.in);
     String choice;
 
-    System.out.println("type " + "\\" + "start to begin the game:");
+    System.out.println("type " + "\\" + "start to begin the round:");
 
 
     while (true) {
