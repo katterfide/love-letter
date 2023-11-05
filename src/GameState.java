@@ -119,7 +119,7 @@ public class GameState {
                     for (int i = 0; i < Player.playerCount ; i++){
 
                         if (!playersEliminated[i]){
-                            System.out.println(playersEliminated[i]);
+                            System.out.println(Player.playerNames[i]);
                         }
 
                     }
@@ -340,16 +340,16 @@ public class GameState {
     }
 
     private static void resetWaitAndResetScreen() throws InterruptedException {
-
+/*
         if (roundOngoing) {
             System.out.println("Please pass the laptop along now.");
             Thread.sleep(5000);
-
-
             for (int i = 0; i < 50; i++) {
                 System.out.println();
             }
         }
+
+ */ //method for error hunting with my girlfriend so "i wouldnt cheat"
 
     }
 

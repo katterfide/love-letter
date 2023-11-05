@@ -14,17 +14,17 @@ public class Card {
                 return 1;
             case "PRIEST":
                 return 2;
-            case "Baron":
+            case "BARON":
                 return 3;
-            case "Handmaid":
+            case "HANDMAID":
                 return 4;
-            case "Prince":
+            case "PRINCE":
                 return 5;
-            case "King":
+            case "KING":
                 return 6;
-            case "Countess":
+            case "COUNTESS":
                 return 7;
-            case "Princess":
+            case "PRINCESS":
                 return 8;
             default:
                 return 0;
@@ -49,10 +49,17 @@ public class Card {
         Card newCard = Deck.drawCard();
         Player.getPlayerHand(GameState.currentPlayerIndex).add(newCard.getType().toString());
 
-        //if royals in hand, handmaid is picked and played automatically
-        if (Player.hasRoyalsInHand()) {
-            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Countess.");
-            Player.selectedCard = CardType.COUNTESS;
+        //if royals in hand, COUNTESS is picked and played automatically
+        ArrayList<String> hand = Player.getPlayerHand(GameState.currentPlayerIndex);
+
+        if (Player.hasRoyalsInHand() && hand.contains("COUNTESS")) {
+            System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " was forced to play Countess, as royals were in their hand.");
+
+
+            Player.displayPlayerHand(Player.playerNames[GameState.currentPlayerIndex]);
+
+
+            countessAction(CardType.COUNTESS);
         }
 
         else {
@@ -174,22 +181,38 @@ public class Card {
             ArrayList<String> targetPlayerCards = Player.getPlayerHand(targetPlayer);
             ArrayList<String> currentPlayerCard = Player.getPlayerHand(currentPlayerIndex);
 
+
+
+
             int currentPlayerValue = cardValue(currentPlayerCard.get(0));
             if (currentPlayerValue == 0){
                 currentPlayerValue = cardValue(currentPlayerCard.get(1));
             }
 
+
+
             int targetPlayerValue = cardValue(targetPlayerCards.get(0));
+            if (targetPlayerValue == 0){
+                targetPlayerValue = cardValue(targetPlayerCards.get(1));
+            }
+
+
+
+            System.out.println("currentplayerVaue: " + currentPlayerValue);
+            System.out.println("targetValue: " + targetPlayerValue);
+
+
+
 
             System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " plays Baron.");
             System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " has " + currentPlayerCard);
             System.out.println(Player.playerNames[targetPlayer] + " has " + targetPlayerCards);
 
-            if (currentPlayerValue < targetPlayerValue) {
+            if (currentPlayerValue > targetPlayerValue) {
                 System.out.println(Player.playerNames[targetPlayer] + " is eliminated.");
                 GameState.eliminatePlayer(targetPlayer, true);
 
-            } else if (currentPlayerValue > targetPlayerValue) {
+            } else if (currentPlayerValue < targetPlayerValue) {
                 System.out.println(Player.playerNames[GameState.currentPlayerIndex] + " is eliminated.");
                 GameState.eliminatePlayer(currentPlayerIndex, true);
 
@@ -222,18 +245,19 @@ public class Card {
 
                 targetCards.clear();
                 Card newCard = Deck.drawCard();
+                if (targetCards.contains("Princess")) {
+                    System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand which contained a princess and was eliminated.");
+                    GameState.eliminatePlayer(targetPlayer, true);
+                }
 
 
                 if (newCard != null) {
 
-                    if (targetCards.contains("Princess")) {
-                        System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand which contained a princess and was eliminated.");
-                        GameState.eliminatePlayer(targetPlayer, true);
-                    } else {
                         targetCards.add(newCard.getType().toString());
                         System.out.println("Player " + Player.playerNames[targetPlayer] + " discards their hand and draws a new card.");
-                    }
-                } else {
+
+                }
+                else {
                     System.out.println("No more cards in the deck to draw.");
                 }
             } else {
@@ -287,7 +311,7 @@ public class Card {
 
     private static void countessAction(CardType selectedCard){
         System.out.println(GameState.currentPlayer + " plays Countess.");
-        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
+        Player.discardCard(CardType.COUNTESS, GameState.currentPlayerIndex);
     }
 
 

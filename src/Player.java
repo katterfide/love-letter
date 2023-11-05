@@ -301,7 +301,13 @@ public class Player {
 
     static boolean hasRoyalsInHand() {
         ArrayList<String> hand = Player.getPlayerHand(GameState.currentPlayerIndex);
-        return hand.contains("King") || hand.contains("Prince") || hand.contains("Princess");
+        if (hand.contains("KING") || hand.contains("PRINCE") || hand.contains("PRINCESS")){
+            return true;
+        }
+        else {
+            System.out.println("hasRoyalsInHand determined false..");
+            return false;
+        }
     }
 
     static void discardCard(Card.CardType selectedCard, int targetPlayer) {

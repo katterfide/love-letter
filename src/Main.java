@@ -30,6 +30,9 @@ public class Main {
 
         //reestablish player after win
 
+        //remove cardvalue print for baron
+        //remove displayHand when
+
 
         GameState.newGame();
 
@@ -46,12 +49,16 @@ public class Main {
         //select self with cards / no effect /
         //handmaid protection on enemy what select then
 
+        //hasRoyalsInHand determined false print
+
 
         //Shuffle these 16 cards to form a face-down draw deck. Remove the top card of the deck from the game without
         //looking at it and place it aside.
 
         //tokens?!
 
+        //King doesnt clear cards proepr?
+        //duplicate cards..
 
     }
 }
