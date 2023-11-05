@@ -4,9 +4,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Player {
-    /**
-     * testjavadoctest
-     */
 
     public static int playerCount = 0;
 
@@ -14,6 +11,12 @@ public class Player {
 
     public static Map<String, ArrayList<String>> playerHands;
 
+
+    /***
+     * reads in the amount of players with int scanner
+     * only accepts 2 - 4
+     * saves the amount of players in int playerCount
+     */
     public static void inputPlayerCount() {
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -38,6 +41,10 @@ public class Player {
         }
     }
 
+
+    /***
+     * goes through the playercount and saves the names as string to array playerNames
+     */
     public static void inputPlayerNames() {
         Scanner sc = new Scanner(System.in);
         playerNames = new String[playerCount];
@@ -47,9 +54,18 @@ public class Player {
         }
     }
 
-    public static Card.CardType selectedCard;
-
-
+    /***
+     *
+     * @param deck represents card deck with which PlayerHands will be generated with
+     *
+     * method initializes playerHands as HeshMap to store every players cards with their name as a string
+     *
+     *             if there is only 2 players, the 2 palyer variant is enabled which means that 3 cards
+     *             have to be drawn from the deck and displayed for everyone to see.
+     *
+     *             goes through each players hand and draws a card each
+     *
+     */
     public static void generatePlayerHands(Deck deck) {
         playerHands = new HashMap<>();
         int numberOfPlayers = Player.playerCount;
@@ -93,7 +109,9 @@ public class Player {
         }
     }
 
-
+    /***
+     * leftover method to troubleshoot deck generation
+     */
     public static void printALLPlayerHands() {
 
         System.out.println(playerHands);
@@ -102,6 +120,13 @@ public class Player {
 
 
     //print Card instead of cardS if just one
+
+    /***
+     * Displays the cards of one player called by string
+     *
+     * @param playerName player call by string, whose cards are to be displayed
+     *                   string because i was stupid enough to save cards in a hashmap
+     */
     public static void displayPlayerHand(String playerName) {
         if (playerHands.containsKey(playerName)) {
             System.out.println("Cards in " + playerName + "'s hand:");
@@ -112,8 +137,14 @@ public class Player {
         } else {
             System.out.println("Player not found or no cards in hand.");
         }
-    } // for \showCards
+    }
 
+    /***
+     * returns the cards of one player called by int
+     *
+     * @param targetPlayer Index int of the Player whose cards are to be returned
+     * @return returns playerHand or null if the players cards are not found/ null
+     */
     public static ArrayList<String> getPlayerHand(int targetPlayer) {
 
         String playerName = playerNames[targetPlayer];
@@ -122,6 +153,14 @@ public class Player {
 
     }
 
+    /***
+     * Chose target player for card action with number
+     * selection of players shows whether player[i] is eliminated or protected by handmaid with emojis
+     *
+     * forced to pick again if player is protected, eliminated, or if if target isnt available (input outside the playercount)
+     *
+     * @return the selected target
+     */
     public static int chooseTargetPlayer() {
 
         Scanner sc = new Scanner(System.in);
@@ -169,6 +208,13 @@ public class Player {
         return targetPlayer;
     }
 
+    /***
+     * Select the card to be played with a number
+     *
+     * selections outside of scope return "0", forced to choose until selecition != 0
+     *
+     * @return the selected card
+     */
     public static Card.CardType selectCard() {
 
         Scanner sc = new Scanner(System.in);
@@ -271,6 +317,12 @@ public class Player {
         return selectedCard;
     }
 
+    /***
+     * helper method for guard card
+     * guess which card selected player might have
+     *
+     * @return card type that has been guessed or guess again if outside of scope of possibilities
+     */
     public static Card.CardType makeGuess() {
         Scanner sc = new Scanner(System.in);
 
@@ -313,8 +365,12 @@ public class Player {
         }
     }
 
-
-
+    /***
+     * checks if any royals in currentplayer hand
+     * helper method for Countess
+     *
+     * @return boolean, whether royals have been found on hand
+     */
     static boolean hasRoyalsInHand() {
         ArrayList<String> hand = Player.getPlayerHand(GameState.currentPlayerIndex);
         if (hand.contains("KING") || hand.contains("PRINCE") || hand.contains("PRINCESS")){
@@ -325,6 +381,11 @@ public class Player {
         }
     }
 
+    /***
+     *
+     * @param selectedCard card to be discarded (in this case always the played card)
+     * @param targetPlayer who is to remove a card, unused because its only used for card discarding after playing
+     */
     static void discardCard(Card.CardType selectedCard, int targetPlayer) {
         ArrayList<String> currentPlayerHand = playerHands.get(playerNames[GameState.currentPlayerIndex]);
         currentPlayerHand.remove(selectedCard.toString()); // Remove by the card type string

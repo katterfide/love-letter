@@ -6,11 +6,22 @@ public class Deck {
     public static int cardsInDeck;
     static Card[] cards;
 
+    /***
+     * constructs a new deck of cards.
+     *16 cards per deck
+     * fills the deck with filler method
+     *
+     */
     public Deck() {
         cards = new Card[16];
         fillDeck();
     }
 
+    /***
+     * fills the deck with standard amount and type of cards
+     * helpermethod from Deck
+     *
+     */
     public void fillDeck() {
         cardsInDeck = 0;
 
@@ -26,6 +37,15 @@ public class Deck {
     }
 
     // method to add cards of type to deck
+
+    /***
+     * helpermethod for fillDeck
+     *
+     * fills the deck by the right card type and count
+     *
+     * @param type  the type of card to add
+     * @param count number of cards to add to the deck of given type
+     */
     private void addCardsDeck(Card.CardType type, int count) {
         for (int i = 0; i < count; i++) {
             if (cardsInDeck < cards.length) {
@@ -36,12 +56,24 @@ public class Deck {
         }
     }
 
+    /***
+     * shuffle deck method
+     *
+     */
     public static void shuffleDeck() {
         List<Card> cardList = Arrays.asList(cards);
         Collections.shuffle(cardList);
         cardList.toArray(cards);
     }
 
+    /****
+     * Draws a card from the deck
+     *
+     * simulates drawing a card from a deck
+     * removes empty index in array and moves cards up
+     *
+     * @return The Card object representing the drawn card, or null if no cards are left in the deck.
+     */
     public static Card drawCard() {
         if (cards.length > 0 && cards[0] != null) {
             Card drawnCard = cards[0];
@@ -61,13 +93,4 @@ public class Deck {
         }
     }
 
-
-    //just a errorhunting method
-    public static void showDeck() {
-        for (int i = 0; i < cards.length; i++) {
-            if (cards[i] != null) {
-                System.out.println(cards[i].getType());
-            }
-        }
-    }
 }

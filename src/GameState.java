@@ -21,6 +21,12 @@ public class GameState {
 
     static int[] daysSinceLastDate = new int[Player.playerNames.length];
 
+    /***
+     * loop in which entire game is played for when there is yet no champion
+     * @throws InterruptedException required to put in when using sleep / wait for 5 seconds
+     *
+     * prints winner at the end of entire game
+     */
     public static void newGame() throws InterruptedException {
         weHaveAChampion = false;
 
@@ -45,12 +51,19 @@ public class GameState {
 
     }
 
+    /***
+     * initialize player tokens array that saves how many tokens which player has
+     */
     public static void initializePlayerTokens() {
         for (int i = 0; i < Player.playerCount; i++) {
             playerTokens[i] = 0;
         }
     }
 
+    /***
+     * new round initializer
+     * initializes: deck, fills it, shuffles it, player handmaid protection array, eliminated players array, generate player hands
+     */
     public static void initializeNewRound(){
 
         Deck deck = new Deck();
@@ -67,12 +80,20 @@ public class GameState {
 
     }
 
+    /***
+     * round loop
+     * while the round is ongoing cards have to be played and turns taken until a round is won
+     * after round check for winner of game - > set round as done
+     *
+     * @throws InterruptedException required to put for sleep / wait time
+     */
     public static void startRound() throws InterruptedException {
         roundOngoing = true;
-        //only one card to draw on initialze (even with more players)
-        // input startcommand
+
         checkTokenChampion();
+
         startCommands();
+
 
         while (roundOngoing) {
 
@@ -86,6 +107,11 @@ public class GameState {
         }
     }
 
+    /***
+     *
+     * String reader to determine which action to take at start of player turn
+     *
+     */
     public static void inputCommand() {
         Scanner sc = new Scanner(System.in);
         String input;
@@ -154,6 +180,13 @@ public class GameState {
         }
     }
 
+    /***
+     * shows the score of all players in tokens (won rounds)
+     *
+     * if player only has 1 token, token is singular, not plural ( player xyz has 1 tokens)
+     *
+     * displays score with diamonds emoji
+     */
     public static void showScore(){
         for (int j = 0; j < Player.playerCount; j++) {
 
@@ -173,6 +206,10 @@ public class GameState {
         }
     }
 
+    /***
+     * players get asked how many days ago their last date was with princess
+     * the player with the most recent date goes first in their turn
+     */
     public static void establishStartingPlayer() {
         Scanner sc = new Scanner(System.in);
 
@@ -195,6 +232,10 @@ public class GameState {
         System.out.println();
     }
 
+    /***
+     * temporarily stores the winner from last roound so they start the next round
+     * @return index of last winner
+     */
     public static int previousWinner(){
         int playerIndex = 0;
 
@@ -203,6 +244,9 @@ public class GameState {
         return playerIndex;
     }
 
+    /***
+     * initialize boolean player protection array as false
+     */
     public static void initializePlayersProtection() {
         int numberOfPlayers = Player.playerCount;
             playersProtected = new boolean[numberOfPlayers];
@@ -213,10 +257,20 @@ public class GameState {
             }
     }
 
+    /***
+     * if polayer plays handmaid their protection turns to true
+     *
+     * @param playerIndex player that is to be protected
+     * @param isProtected player is now protected
+     */
     public static void setProtection(int playerIndex, boolean isProtected) {
             playersProtected[playerIndex] = isProtected;
     }
 
+    /***
+     * boolean array of players that are eliminated this round
+     * initialized as false on everybody
+     */
     public static void initializeEliminationArray() {
         int numberOfPlayers = Player.playerCount;
         playersEliminated = new boolean[numberOfPlayers];
@@ -226,11 +280,20 @@ public class GameState {
         }
     }
 
+    /***
+     * eliminate player for round method
+     * @param Index player to be eliminated
+     * @param isEliminated set their array to true / isEliminated
+     */
     public static void eliminatePlayer(int Index, boolean isEliminated){
         playersEliminated[Index] = isEliminated;
 
     }
 
+    /***
+     * count the number of players stiill in the round
+     * if only 1 remaining player -> we have a winner
+     */
     private static void checkSurvivors() {
         int remainingPlayers = 0;
         int survivorIndex = 0;
@@ -250,6 +313,16 @@ public class GameState {
         }
     }
 
+    /***
+     * after playing a card turn ends.
+     *
+     * if deck is empty check for winner
+     *
+     * if only player left in game -> winner
+     *
+     *
+     * @throws InterruptedException
+     */
     public static void endTurn() throws InterruptedException {
         emptyDeckWinner();
         checkSurvivors();
@@ -272,7 +345,6 @@ public class GameState {
             } while (playersEliminated[currentPlayerIndex]);
 
             if (currentPlayerIndex == startingIndex) {
-                System.out.println("current player is the same as the starting index");
                 weHaveAWinner();
             }
         }
@@ -280,6 +352,13 @@ public class GameState {
         currentPlayer = Player.playerNames[currentPlayerIndex]; // updating currentPlayer sring
     }
 
+    /***
+     * if deck is empty, check for highest card of the remaining players
+     * highest card holder wins round
+     *
+     * have to check for both card slots in case prince was played and there are no cards to draw
+     *
+     */
     public static void emptyDeckWinner() {
         if (Deck.cards.length == 0) {
             System.out.println("The deck is empty.");
@@ -331,7 +410,12 @@ public class GameState {
         }
     }
 
-
+    /***
+     * if round winconditions are fulfilled we have a winner
+     * sets winning players tokens up by one
+     *
+     * checks if a player has enough tokens to win the entire game
+     */
     public static void weHaveAWinner(){
 
 
@@ -353,28 +437,38 @@ public class GameState {
 
     }
 
+    /***
+     * checks if a player has enough tokens to win the entire game
+     * token amount required different by amount of players
+     *
+     */
     private static void checkTokenChampion() {
         weHaveAChampion = false;
 
-        for (int token : playerTokens) {
-            if (Player.playerCount == 2 && token == 1) {
-                weHaveAChampion = true;
-                break;
-            }
 
-            else if (Player.playerCount == 3 && token == 1) {
-                weHaveAChampion = true;
-                break;
-            }
+        for (int i = 0; i < Player.playerCount; i++) {
+            int token = playerTokens[i];
 
-            else if (Player.playerCount == 4 && token == 1){
+            if (Player.playerCount == 2 && token == 7) {
                 weHaveAChampion = true;
+                currentPlayerIndex = i;
                 break;
-
+            } else if (Player.playerCount == 3 && token == 5) {
+                weHaveAChampion = true;
+                currentPlayerIndex = i;
+                break;
+            } else if (Player.playerCount == 4 && token == 4) {
+                weHaveAChampion = true;
+                currentPlayerIndex = i;
+                break;
             }
         }
     }
 
+    /***
+     * required to input \start before every new round start
+     * @throws InterruptedException
+     */
     private static void startCommands() throws InterruptedException {
 
     Scanner sc = new Scanner(System.in);
@@ -402,6 +496,12 @@ public class GameState {
 
     }
 
+    /***
+     * merely a method for my girlfriend and myself to error hunt as she swore i was cheating
+     *
+     * resets the screen and waits 5 seconds for laptop to be passed
+     * @throws InterruptedException
+     */
     private static void resetWaitAndResetScreen() throws InterruptedException {
 /*
         if (roundOngoing) {
@@ -416,6 +516,11 @@ public class GameState {
 
     }
 
+    /***
+     * catches any char/string that is being input instead of an expected integer
+     * @param sc
+     * @return integer once input
+     */
     public static int nextInt(Scanner sc) {
 
         int value;

@@ -8,6 +8,11 @@ public class Card {
         GUARD, PRIEST, BARON, HANDMAID, PRINCE, KING, COUNTESS, PRINCESS
     }
 
+    /***
+     *  assigns each card string a value
+     * @param card string of card to be evaluated
+     * @return int value of card
+     */
     static int cardValue(String card) {
         switch (card) {
             case "GUARD":
@@ -31,15 +36,31 @@ public class Card {
         }
     }
 
+    /***
+     *constructs new card type with the specified CardType
+     *
+     * @param type type of card like King or priest etc.
+     */
     public Card(CardType type) {
 
         this.type = type;
     }
 
+    /***
+     * get Type of card
+     * @return CardType of card
+     */
     public CardType getType() {
         return type;
     }
 
+    /***
+     * Plays a card from the current players hand and performs the corresponding game action
+     *
+     * resets Handmaid protection for the current player. (since if they get to play a card again and are protected, a rund must have passed.
+     * draws a card from the deck and adds it to the current players hand
+     * if player has royal cards in their hand and has a Countess, Countess is selected and played automatically
+     */
     public static void playCard() {
 
         //set Handmaid protection to false, because if theyre playing a card a round mustve passed
@@ -109,6 +130,13 @@ public class Card {
         }
     }
 
+    /**
+     * performs guard card action, allowing the current player to guess another players hand card
+     *
+     * allows the current player to make a guess about the hand card of another player and, if the guess is correct, eliminate that player from the game
+     *
+     * @param selectedCard cardType representing the "Guard" card played by the current player
+     */
     private static void guardAction(CardType selectedCard) {
 
         int targetPlayer = Player.chooseTargetPlayer();
@@ -145,6 +173,12 @@ public class Card {
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
+    /***
+     * performs priest card action, allowing the current player to see another player's hand cards.
+     *
+     *  allows the current player to choose a target player and view the card of that player
+     *  @param selectedCard cardType representing the card played by the current player
+     */
     private static void priestAction(CardType selectedCard) {
         System.out.println("Which players card do you want to see?");
         int targetPlayer = Player.chooseTargetPlayer();
@@ -168,6 +202,15 @@ public class Card {
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
+    /**
+     * performs baron card action
+     * allowing the current player to compare their cards value with another players cards value
+     * the one with the lower card gets eliminated
+     * if both are the same nothign happens
+     *
+     * baron is discarded at start of action so he is not compared with rest of cards
+     * @param selectedCard cardType representing the card played by the current player
+     */
     private static void baronAction(CardType selectedCard) {
 
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
@@ -211,6 +254,12 @@ public class Card {
         }
     }
 
+    /***
+     * performs the hamdmaid card action
+     * sets the protectionarray to true for the current playerindex
+     *
+     * @param selectedCard cardType representing the card played by the current player
+     */
     private static void handmaidAction(CardType selectedCard) {
         System.out.println(GameState.currentPlayer + " plays Handmaid.");
         GameState.setProtection(GameState.currentPlayerIndex, true);
@@ -218,6 +267,15 @@ public class Card {
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
+    /**
+     * Performs the prince card action
+     * allowing the current player to target another player
+     * any selected player discards their hand and draws a new card
+     *
+     * if discarded hand contained princess, that player is eliminated except if it was the person that played the prince
+     *
+     * @param selectedCard The CardType representing the prince card played by the current player.
+     */
     private static void princeAction(CardType selectedCard) {
         //includes yourself, draws card that was removed at the start of the round if no cards??
         //doesnt get red of princess in your own hand
@@ -272,6 +330,10 @@ public class Card {
         Player.discardCard(selectedCard, GameState.currentPlayerIndex);
     }
 
+    /***
+     * switches the cards of a a target player with current players hand
+     * @param selectedCard the CardType representing the King card played by the current player.
+     */
     private static void kingAction(CardType selectedCard) {
 
         int targetPlayer = Player.chooseTargetPlayer();
@@ -302,19 +364,17 @@ public class Card {
         }
     }
 
+    /***
+     * performs the countess action
+     * which is nothign
+     * the countess is merely discarded
+     *
+     * @param selectedCard
+     */
     private static void countessAction(CardType selectedCard){
         System.out.println(GameState.currentPlayer + " plays Countess.");
         Player.discardCard(CardType.COUNTESS, GameState.currentPlayerIndex);
     }
-
-
-/*
-    private static void princessAction(){
-        System.out.println(GameState.currentPlayer + " plays Countess.");
-        Player.discardCard(selectedCard, GameState.currentPlayerIndex);
-    }
-
- */
 
 }
 
